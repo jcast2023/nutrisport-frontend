@@ -1,0 +1,198 @@
+<div class="dash-wrapper">
+  <aside class="sidebar">
+  <div class="sidebar-brand">
+    <span class="logo-letters">VS</span>
+    <span class="sidebar-title">NutriPro</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a class="sidebar-link" [class.active]="seccion==='resumen'" (click)="seccion='resumen'">
+      <i class="ti ti-layout-dashboard"></i> <span>Resumen</span>
+    </a>
+    <a class="sidebar-link" [class.active]="seccion==='macros'" (click)="seccion='macros'">
+      <i class="ti ti-salad"></i> <span>Mis macros</span>
+    </a>
+    <a class="sidebar-link" [class.active]="seccion==='citas'" (click)="seccion='citas'">
+      <i class="ti ti-calendar"></i> <span>Mis citas</span>
+    </a>
+    <a class="sidebar-link" [class.active]="seccion==='objetivo'" (click)="seccion='objetivo'">
+      <i class="ti ti-target"></i> <span>Mi objetivo</span>
+    </a>
+    <a class="sidebar-link" [class.active]="seccion==='mediciones'" (click)="seccion='mediciones'">
+      <i class="ti ti-ruler-measure"></i> <span>Mi ficha</span>
+    </a>
+  </nav>
+  <button class="sidebar-logout" (click)="cerrarSesion()">
+    <i class="ti ti-logout"></i> <span>Cerrar sesión</span>
+  </button>
+</aside>
+
+  <main class="dash-main">
+    <div class="dash-header">
+      <div>
+        <h1 class="dash-title">{{ tituloSeccion }}</h1>
+        <p class="dash-sub">{{ subtituloSeccion }}</p>
+      </div>
+      <div class="dash-date">{{ hoy }}</div>
+    </div>
+
+    <!-- RESUMEN -->
+    <ng-container *ngIf="seccion==='resumen'">
+      <section class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--teal"><i class="ti ti-flame"></i></div>
+          <div>
+            <div class="stat-val">{{ totales.calorias | number:'1.0-0' }}</div>
+            <div class="stat-lbl">kcal hoy</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--blue"><i class="ti ti-meat"></i></div>
+          <div>
+            <div class="stat-val">{{ totales.proteinas | number:'1.0-0' }}g</div>
+            <div class="stat-lbl">proteínas</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--amber"><i class="ti ti-bread"></i></div>
+          <div>
+            <div class="stat-val">{{ totales.carbohidratos | number:'1.0-0' }}g</div>
+            <div class="stat-lbl">carbohidratos</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--coral"><i class="ti ti-droplet"></i></div>
+          <div>
+            <div class="stat-val">{{ totales.grasas | number:'1.0-0' }}g</div>
+            <div class="stat-lbl">grasas</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="dash-card">
+        <h2 class="card-title">Distribución de macros</h2>
+        <div class="chart-wrap">
+          <canvas baseChart [data]="chartData" [type]="'doughnut'" [options]="chartOptions"></canvas>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><span class="dot" style="background:#14b8a6"></span>Proteínas {{ totales.proteinas | number:'1.0-0' }}g</div>
+          <div class="legend-item"><span class="dot" style="background:#3b82f6"></span>Carbohidratos {{ totales.carbohidratos | number:'1.0-0' }}g</div>
+          <div class="legend-item"><span class="dot" style="background:#f59e0b"></span>Grasas {{ totales.grasas | number:'1.0-0' }}g</div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <button class="quick-btn" (click)="seccion='macros'">
+          <i class="ti ti-plus"></i> Registrar consumo
+        </button>
+        <button class="quick-btn quick-btn--outline" (click)="seccion='citas'">
+          <i class="ti ti-calendar-plus"></i> Agendar cita
+        </button>
+        <button class="quick-btn quick-btn--outline" (click)="seccion='mediciones'">
+          <i class="ti ti-ruler-measure"></i> Registrar medición
+        </button>
+      </div>
+    </ng-container>
+
+    <!-- MIS MACROS -->
+    <ng-container *ngIf="seccion==='macros'">
+      <div class="dash-card">
+        <h2 class="card-title">Registrar consumo</h2>
+        <app-consumo-formulario (consumoRegistrado)="cargarDatos()"></app-consumo-formulario>
+      </div>
+      <div class="dash-card">
+        <h2 class="card-title">Consumos del día</h2>
+        <div *ngIf="alimentos.length === 0" class="empty-state">
+          <i class="ti ti-salad"></i>
+          <p>Aún no has registrado consumos hoy.</p>
+        </div>
+        <div class="food-list" *ngIf="alimentos.length > 0">
+          <div class="food-row" *ngFor="let item of alimentos">
+            <div class="food-info">
+              <span class="food-name">{{ item.alimento }}</span>
+              <span class="food-tipo">{{ item.comidaTipo }}</span>
+            </div>
+            <div class="food-macros">
+              <span class="macro-pill macro-pill--cal">{{ item.caloriasTotales | number:'1.0-0' }} kcal</span>
+              <span class="macro-pill macro-pill--prot">P: {{ item.proteinasTotales | number:'1.0-0' }}g</span>
+              <span class="macro-pill macro-pill--carb">C: {{ item.carbohidratosTotales | number:'1.0-0' }}g</span>
+            </div>
+            <button class="btn-delete" (click)="eliminar(item.id)">
+              <i class="ti ti-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- MIS CITAS -->
+    <ng-container *ngIf="seccion==='citas'">
+      <div class="dash-grid">
+        <div class="dash-card">
+          <h2 class="card-title">Agendar nueva cita</h2>
+          <app-cita-formulario (citaAgendada)="refrescarCitas()"></app-cita-formulario>
+        </div>
+        <div class="dash-card">
+          <h2 class="card-title">Mis citas agendadas</h2>
+          <app-lista-citas #listaCitas></app-lista-citas>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- MI OBJETIVO -->
+    <ng-container *ngIf="seccion==='objetivo'">
+      <div class="dash-card">
+        <h2 class="card-title">Mi objetivo nutricional</h2>
+        <div class="objetivo-grid" *ngIf="objetivo">
+          <div class="objetivo-item">
+            <label>Calorías diarias</label>
+            <div class="objetivo-val">{{ objetivo.caloriasObjetivo }} kcal</div>
+            <div class="objetivo-bar">
+              <div class="objetivo-fill" [style.width.%]="porcentajeCalorias"></div>
+            </div>
+            <small>{{ totales.calorias | number:'1.0-0' }} / {{ objetivo.caloriasObjetivo }} kcal consumidas</small>
+          </div>
+          <div class="objetivo-item">
+            <label>Proteínas diarias</label>
+            <div class="objetivo-val">{{ objetivo.proteinasObjetivo }}g</div>
+            <div class="objetivo-bar">
+              <div class="objetivo-fill objetivo-fill--blue" [style.width.%]="porcentajeProteinas"></div>
+            </div>
+            <small>{{ totales.proteinas | number:'1.0-0' }} / {{ objetivo.proteinasObjetivo }}g consumidas</small>
+          </div>
+          <div class="objetivo-item">
+            <label>Carbohidratos diarios</label>
+            <div class="objetivo-val">{{ objetivo.carbohidratosObjetivo }}g</div>
+            <div class="objetivo-bar">
+              <div class="objetivo-fill objetivo-fill--amber" [style.width.%]="porcentajeCarbohidratos"></div>
+            </div>
+            <small>{{ totales.carbohidratos | number:'1.0-0' }} / {{ objetivo.carbohidratosObjetivo }}g consumidos</small>
+          </div>
+          <div class="objetivo-item">
+            <label>Grasas diarias</label>
+            <div class="objetivo-val">{{ objetivo.grasasObjetivo }}g</div>
+            <div class="objetivo-bar">
+              <div class="objetivo-fill objetivo-fill--coral" [style.width.%]="porcentajeGrasas"></div>
+            </div>
+            <small>{{ totales.grasas | number:'1.0-0' }} / {{ objetivo.grasasObjetivo }}g consumidas</small>
+          </div>
+        </div>
+        <div *ngIf="!objetivo" class="empty-state">
+          <i class="ti ti-target"></i>
+          <p>Tu nutricionista aún no ha asignado tu objetivo.</p>
+          <button class="quick-btn" style="margin-top:1rem" (click)="seccion='citas'">
+            <i class="ti ti-calendar-plus"></i> Agenda una cita para comenzar
+          </button>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- MI FICHA CLÍNICA -->
+    <ng-container *ngIf="seccion==='mediciones'">
+      <div class="dash-card">
+        <h2 class="card-title">Ficha clínica</h2>
+        <app-mediciones></app-mediciones>
+      </div>
+    </ng-container>
+
+  </main>
+</div>

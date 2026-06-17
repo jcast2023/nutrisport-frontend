@@ -1,0 +1,148 @@
+<div class="medicion-wrapper">
+
+  <!-- RESUMEN ACTUAL -->
+  <div class="medicion-resumen" *ngIf="ultimaMedicion">
+    <div class="resumen-card">
+      <span class="resumen-label">Peso actual</span>
+      <span class="resumen-val">{{ ultimaMedicion.peso }} <small>kg</small></span>
+      <span class="variacion" *ngIf="variacionPeso" [style.color]="colorVariacion">
+        {{ variacionPeso }} vs anterior
+      </span>
+    </div>
+    <div class="resumen-card">
+      <span class="resumen-label">Talla</span>
+      <span class="resumen-val">{{ ultimaMedicion.talla }} <small>cm</small></span>
+    </div>
+    <div class="resumen-card">
+      <span class="resumen-label">IMC</span>
+      <span class="resumen-val" [style.color]="colorIMC">{{ ultimaMedicion.imc }}</span>
+      <span class="resumen-cat" [style.color]="colorIMC">{{ categoriaIMC }}</span>
+    </div>
+    <div class="resumen-card" *ngIf="ultimaMedicion.cinturasCm">
+      <span class="resumen-label">Cintura</span>
+      <span class="resumen-val">{{ ultimaMedicion.cinturasCm }} <small>cm</small></span>
+    </div>
+    <div class="resumen-card" *ngIf="ultimaMedicion.porcentajeGrasa">
+      <span class="resumen-label">% Grasa</span>
+      <span class="resumen-val">{{ ultimaMedicion.porcentajeGrasa }}<small>%</small></span>
+    </div>
+    <div class="resumen-card" *ngIf="ultimaMedicion.masaMuscular">
+      <span class="resumen-label">Masa muscular</span>
+      <span class="resumen-val">{{ ultimaMedicion.masaMuscular }} <small>kg</small></span>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!ultimaMedicion && historial.length === 0">
+    <i class="ti ti-ruler-measure"></i>
+    <p>Aún no tienes mediciones registradas.</p>
+  </div>
+
+  <!-- GRÁFICOS DE EVOLUCIÓN -->
+  <div class="graficos-grid" *ngIf="historial.length > 1">
+    <div class="grafico-card">
+      <h3 class="grafico-title">
+        <i class="ti ti-trending-down"></i> Evolución del peso
+      </h3>
+      <canvas baseChart
+        [data]="pesoChartData"
+        [type]="'line'"
+        [options]="chartOptions">
+      </canvas>
+    </div>
+    <div class="grafico-card">
+      <h3 class="grafico-title">
+        <i class="ti ti-activity"></i> Evolución del IMC
+      </h3>
+      <canvas baseChart
+        [data]="imcChartData"
+        [type]="'line'"
+        [options]="chartOptions">
+      </canvas>
+    </div>
+  </div>
+
+  <div class="graficos-hint" *ngIf="historial.length === 1">
+    <i class="ti ti-info-circle"></i>
+    Registra al menos 2 mediciones para ver tu evolución en gráficos.
+  </div>
+
+  <!-- BOTÓN NUEVA MEDICIÓN -->
+  <button class="btn-nueva" (click)="mostrandoFormulario=!mostrandoFormulario">
+    <i class="ti ti-plus"></i>
+    {{ mostrandoFormulario ? 'Cancelar' : 'Registrar nueva medición' }}
+  </button>
+
+  <!-- FORMULARIO -->
+  <div class="medicion-form" *ngIf="mostrandoFormulario">
+    <h3 class="form-title">Nueva medición</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Peso (kg) *</label>
+        <input type="number" [(ngModel)]="form.peso" class="form-input" placeholder="Ej: 75.5" step="0.1"/>
+      </div>
+      <div class="form-group">
+        <label>Talla (cm) *</label>
+        <input type="number" [(ngModel)]="form.talla" class="form-input" placeholder="Ej: 170" step="0.1"/>
+      </div>
+      <div class="form-group">
+        <label>Cintura (cm)</label>
+        <input type="number" [(ngModel)]="form.cinturasCm" class="form-input" placeholder="Ej: 80" step="0.1"/>
+      </div>
+      <div class="form-group">
+        <label>Cadera (cm)</label>
+        <input type="number" [(ngModel)]="form.caderaCm" class="form-input" placeholder="Ej: 95" step="0.1"/>
+      </div>
+      <div class="form-group">
+        <label>% Grasa corporal</label>
+        <input type="number" [(ngModel)]="form.porcentajeGrasa" class="form-input" placeholder="Ej: 22.5" step="0.1"/>
+      </div>
+      <div class="form-group">
+        <label>Masa muscular (kg)</label>
+        <input type="number" [(ngModel)]="form.masaMuscular" class="form-input" placeholder="Ej: 35.2" step="0.1"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notas</label>
+      <textarea [(ngModel)]="form.notas" class="form-input form-textarea"
+        placeholder="Observaciones, contexto de la medición..."></textarea>
+    </div>
+    <button class="btn-guardar" (click)="registrar()" [disabled]="cargando">
+      <i class="ti ti-check"></i>
+      {{ cargando ? 'Guardando...' : 'Guardar medición' }}
+    </button>
+  </div>
+
+  <!-- HISTORIAL -->
+  <div class="historial" *ngIf="historial.length > 0">
+    <h3 class="historial-title">Historial de mediciones</h3>
+    <div class="historial-table">
+      <div class="table-header">
+        <span>Fecha</span>
+        <span>Peso</span>
+        <span>IMC</span>
+        <span>Cintura</span>
+        <span>% Grasa</span>
+        <span>Músculo</span>
+        <span></span>
+      </div>
+      <div class="table-row" *ngFor="let m of historial">
+        <span class="fecha-cell">{{ m.fecha | date:'dd/MM/yyyy' }}</span>
+        <span><strong>{{ m.peso }}</strong> kg</span>
+        <span>
+          <span class="imc-badge"
+            [style.background]="m.imc < 25 ? '#d1fae5' : m.imc < 30 ? '#fef3c7' : '#fee2e2'"
+            [style.color]="m.imc < 25 ? '#065f46' : m.imc < 30 ? '#92400e' : '#991b1b'">
+            {{ m.imc }}
+          </span>
+        </span>
+        <span>{{ m.cinturasCm ?? '—' }} cm</span>
+        <span>{{ m.porcentajeGrasa ?? '—' }}%</span>
+        <span>{{ m.masaMuscular ?? '—' }} kg</span>
+        <button class="btn-del" (click)="eliminar(m.id)">
+          <i class="ti ti-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

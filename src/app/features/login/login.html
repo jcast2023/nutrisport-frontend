@@ -1,0 +1,55 @@
+<div class="login-container">
+
+  <div class="login-left">
+    <div class="login-left-content">
+      <div class="login-brand">
+        <span class="logo-letters">VS</span>
+        <span class="login-brand-name">NutriPro</span>
+      </div>
+      <p class="login-tagline">Tu rendimiento<br><span>está en tus manos</span></p>
+      <p class="login-tagline-sub">Pedro Luis Castillo · Nutricionista Deportivo</p>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+      <h2>Bienvenido</h2>
+      <p class="subtitle">Ingresa a tu panel nutricional</p>
+
+      <div *ngIf="errorMensaje" class="error-alert">
+        {{ errorMensaje }}
+      </div>
+
+      <form (ngSubmit)="ejecutarLogin()">
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="credenciales.email"
+            required
+            placeholder="ejemplo@correo.com"/>
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="credenciales.password"
+            required
+            placeholder="••••••••"/>
+        </div>
+        <button type="submit" class="login-btn" [disabled]="cargando">
+          {{ cargando ? 'Ingresando...' : 'Ingresar' }}
+        </button>
+      </form>
+
+      <p class="login-footer">
+        ¿No tienes cuenta? <a href="#cita" routerLink="/home">Agenda una cita</a>
+      </p>
+    </div>
+  </div>
+
+</div>

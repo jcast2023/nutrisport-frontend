@@ -1,0 +1,263 @@
+<div class="home-wrapper">
+  <nav class="nav">
+    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+    <label for="menu-toggle" class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <div class="nav-logo">
+      <span class="logo-letters">PC</span>
+      <span class="logo-sub">NUTRISPORT</span>
+    </div>
+
+    <div class="nav-links">
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#blog">Blog</a>
+      <a href="#testimonios">Testimonios</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+
+    <div class="nav-right">
+      <a routerLink="/login" class="nav-login">Ingresar</a>
+      <a routerLink="/registro" class="nav-cta">Pide cita</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="inicio">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-professional"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        TU<br>RENDIMIENTO<br>ESTÁ EN TUS<br>MANOS
+      </h1>
+      <a routerLink="/registro" class="hero-cta">EMPIEZA AHORA</a>
+    </div>
+  </section>
+
+  <section class="section" id="servicios">
+    <div class="section-header">
+      <span class="section-tag">Lo que ofrezco</span>
+      <h2>Servicios especializados</h2>
+      <p>Cada plan es único porque cada cuerpo es único.</p>
+    </div>
+    <div class="services-grid">
+  <article class="service-card">
+    <div class="service-card-img" style="background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80')"></div>
+    <div class="service-card-body">
+      <div class="service-icon"><i class="ti ti-chart-bar"></i></div>
+      <h3>Control de macros</h3>
+      <p>Registro diario de proteínas, carbohidratos y grasas con cálculo automático según los gramos consumidos.</p>
+      <ul class="service-list">
+        <li>Dashboard nutricional personalizado</li>
+        <li>Historial de consumos del día</li>
+        <li>Gráfico de distribución de macros</li>
+      </ul>
+      <a routerLink="/registro" class="service-btn">Comenzar ahora</a>
+    </div>
+  </article>
+
+  <article class="service-card service-card--featured">
+
+    <div class="service-card-img" style="background-image:url('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80')"></div>
+    <div class="service-card-body">
+      <div class="service-icon"><i class="ti ti-user-check"></i></div>
+      <h3>Consulta nutricional</h3>
+      <p>Agenda tu consulta con Pedro Luis Castillo y recibe un plan nutricional ajustado a tus metas reales.</p>
+      <ul class="service-list">
+        <li>Evaluación de composición corporal</li>
+        <li>Plan nutricional personalizado</li>
+        <li>Seguimiento a través de la app</li>
+      </ul>
+      <a routerLink="/registro" class="service-btn service-btn--featured">Agendar consulta</a>
+    </div>
+  </article>
+
+  <article class="service-card">
+    <div class="service-card-img" style="background-image:url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80')"></div>
+    <div class="service-card-body">
+      <div class="service-icon"><i class="ti ti-run"></i></div>
+      <h3>Nutrición deportiva</h3>
+      <p>Estrategias nutricionales para atletas basadas en evidencia científica y periodización del rendimiento.</p>
+      <ul class="service-list">
+        <li>Nutrición pre y post entreno</li>
+        <li>Objetivos de calorías y proteínas</li>
+        <li>Artículos y contenido especializado</li>
+      </ul>
+      <a routerLink="/registro" class="service-btn">Comenzar ahora</a>
+    </div>
+  </article>
+</div>
+  </section>
+
+  <section class="section section--dark" id="sobre-mi">
+    <div class="about-grid">
+      <div class="about-visual">
+<div class="about-avatar-img">
+  <img src="2.png"
+       alt="Pedro Luis Castillo - Nutricionista Deportivo"/>
+</div>
+        <div class="about-credentials">
+          <div class="credential"><i class="ti ti-certificate" aria-hidden="true"></i> Lic. en Nutrición Clínica</div>
+          <div class="credential"><i class="ti ti-award" aria-hidden="true"></i> Esp. Nutrición Deportiva</div>
+          <div class="credential"><i class="ti ti-medal" aria-hidden="true"></i> Certificación ISSN</div>
+        </div>
+      </div>
+      <div class="about-content">
+        <span class="section-tag">Sobre mí</span>
+        <h2>Pedro Luis Castillo</h2>
+        <p class="about-lead">Nutricionista deportivo con más de 10 años ayudando a atletas y personas activas a alcanzar su máximo rendimiento.</p>
+        <p>Mi enfoque combina la ciencia de los macronutrientes con un seguimiento personalizado y continuo. No creo en las dietas genéricas — cada plan parte de tus datos reales, tu rutina y tus metas concretas.</p>
+        <div class="about-stats">
+          <div class="astat"><span>+500</span><small>pacientes</small></div>
+          <div class="astat"><span>10</span><small>años exp.</small></div>
+          <div class="astat"><span>98%</span><small>satisfacción</small></div>
+        </div>
+        <a routerLink="/registro" class="btn-teal" style="display:inline-block;margin-top:1.5rem">Agenda una consulta</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="blog">
+    <div class="section-header">
+      <span class="section-tag">Conocimiento</span>
+      <h2>Artículos recientes</h2>
+      <p>Información basada en evidencia para tomar mejores decisiones.</p>
+    </div>
+    <div class="blog-grid">
+  <article class="blog-card" routerLink="/blog/proteinas" style="cursor:pointer">
+    <div class="blog-img" style="background-image:url('https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=600&q=80')"></div>
+    <div class="blog-body">
+      <div class="blog-category">Macronutrientes</div>
+      <h3>Cuánta proteína necesitas realmente según tu peso y actividad</h3>
+      <p>El mito de los 2g por kilo y lo que dice la ciencia actual sobre requerimientos proteicos.</p>
+      <div class="blog-meta"><i class="ti ti-clock"></i> 5 min lectura</div>
+    </div>
+  </article>
+  <article class="blog-card" routerLink="/blog/timing-nutricional" style="cursor:pointer">
+    <div class="blog-img" style="background-image:url('https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80')"></div>
+    <div class="blog-body">
+      <div class="blog-category">Rendimiento</div>
+      <h3>Timing nutricional: qué comer antes y después de entrenar</h3>
+      <p>La ventana anabólica existe, pero no como la imaginas. Guía práctica con ejemplos reales.</p>
+      <div class="blog-meta"><i class="ti ti-clock"></i> 7 min lectura</div>
+    </div>
+  </article>
+  <article class="blog-card" routerLink="/blog/deficit-calorico" style="cursor:pointer">
+    <div class="blog-img" style="background-image:url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80')"></div>
+    <div class="blog-body">
+      <div class="blog-category">Composición corporal</div>
+      <h3>Déficit calórico sin perder músculo: la guía definitiva</h3>
+      <p>Cómo calcular tu TDEE, establecer el déficit correcto y mantener tu masa muscular.</p>
+      <div class="blog-meta"><i class="ti ti-clock"></i> 9 min lectura</div>
+    </div>
+  </article>
+</div>
+  </section>
+
+ <section class="section section--teal" id="testimonios">
+  <div class="section-header">
+    <span class="section-tag section-tag--light">Testimonios</span>
+    <h2>Lo que dicen mis pacientes</h2>
+    <p style="color: #fff; opacity: 0.85;">Resultados reales de personas reales.</p>
+  </div>
+
+  <div class="testimonios-grid">
+    <div class="testimonio-card">
+      <div class="testimonio-stars">★★★★★</div>
+      <p class="testimonio-texto">"Bajé 8kg en 3 meses sin pasar hambre. El seguimiento semanal y los planes personalizados marcaron la diferencia."</p>
+      <div class="testimonio-autor">
+        <div class="testimonio-avatar">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&q=80" alt="María R.">
+        </div>
+        <div>
+          <span class="testimonio-nombre">María R.</span>
+          <span class="testimonio-detalle">Perdió 8kg en 3 meses</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonio-card testimonio-card--highlight">
+      <div class="testimonio-stars">★★★★★</div>
+      <p class="testimonio-texto">"Como atleta necesitaba un plan específico para mis competencias. Pedro entendió exactamente lo que necesitaba y los resultados fueron increíbles."</p>
+      <div class="testimonio-autor">
+        <div class="testimonio-avatar">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80" alt="Jorge C.">
+        </div>
+        <div>
+          <span class="testimonio-nombre">Jorge C.</span>
+          <span class="testimonio-detalle">Atleta de crossfit</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonio-card">
+      <div class="testimonio-stars">★★★★★</div>
+      <p class="testimonio-texto">"Llevaba años con problemas de alimentación. Gracias al seguimiento personalizado logré hábitos que mantuve por más de un año."</p>
+      <div class="testimonio-autor">
+        <div class="testimonio-avatar">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&q=80" alt="Lucía C.">
+        </div>
+        <div>
+          <span class="testimonio-nombre">Lucía C.</span>
+          <span class="testimonio-detalle">Control de hábitos alimenticios</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section class="section" id="contacto">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <span class="section-tag">Contacto</span>
+        <h2>¿Hablamos?</h2>
+        <p>Agenda tu consulta inicial. Te respondo en menos de 24 horas.</p>
+        <div class="contact-items">
+          <div class="contact-item"><i class="ti ti-mail" aria-hidden="true"></i> pedroluis&#64;nutripro.pe</div>
+          <div class="contact-item"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i>981 091 573</div>
+          <div class="contact-item"><i class="ti ti-map-pin" aria-hidden="true"></i> Miraflores, Lima — Perú</div>
+        </div>
+      </div>
+      <div class="cta-box" id="cita">
+        <h3>Primera cita</h3>
+        <p>Crea tu cuenta gratis, agenda tu consulta y lleva el control de tus macros desde tu panel personal.</p>
+        <div class="cta-steps">
+          <div class="cta-step"><span class="step-num">1</span><span>Crea tu cuenta</span></div>
+          <div class="cta-step"><span class="step-num">2</span><span>Agenda tu cita desde el dashboard</span></div>
+          <div class="cta-step"><span class="step-num">3</span><span>Empieza tu seguimiento nutricional</span></div>
+        </div>
+        <a routerLink="/registro" class="btn-teal btn-full" style="margin-top:1.5rem;display:block">
+          Crear cuenta gratis
+        </a>
+        <p class="cta-note">¿Ya tienes cuenta? <a routerLink="/login" style="color:#14b8a6;font-weight:600">Inicia sesión</a></p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-letters">PC</span>
+        <div>
+          <div style="font-weight:700;color:#fff">Pedro Luis Castillo</div>
+          <div style="font-size:0.8rem;color:#9ca3af">Nutricionista Deportivo</div>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="#servicios">Servicios</a>
+        <a href="#sobre-mi">Sobre mí</a>
+        <a href="#blog">Blog</a>
+        <a href="#testimonios">Testimonios</a>
+        <a routerLink="/login">Ingresar</a>
+        <a routerLink="/registro">Registrarse</a>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2026 NutriPro · Pedro Luis Castillo. Todos los derechos reservados.</p>
+  </footer>
+
+</div>

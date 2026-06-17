@@ -1,0 +1,271 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.articulo-wrapper {
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1e293b;
+  background: #fff;
+}
+
+.articulo-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem;
+  background: rgba(15,15,15,0.92);
+  backdrop-filter: blur(8px);
+  position: sticky; top: 0; z-index: 100;
+}
+.nav-back {
+  display: flex; align-items: center; gap: 0.4rem;
+  color: #e5e7eb; text-decoration: none; font-size: 0.9rem;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: #14b8a6; }
+.nav-logo { display: flex; flex-direction: column; align-items: center; }
+.logo-letters { font-size: 1.5rem; font-weight: 900; color: #fff; letter-spacing: -1px; }
+.logo-sub { font-size: 0.55rem; letter-spacing: 3px; color: #14b8a6; font-weight: 700; }
+.nav-cta {
+  background: #14b8a6; color: #fff;
+  padding: 0.5rem 1.25rem; border-radius: 999px;
+  font-weight: 700; text-decoration: none; font-size: 0.875rem;
+}
+.nav-cta:hover { background: #0d9488; }
+
+.articulo-hero {
+  height: 420px;
+  background-size: cover; background-position: center;
+  position: relative;
+  display: flex; align-items: flex-end;
+}
+.articulo-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%);
+}
+.articulo-hero-content {
+  position: relative; z-index: 1;
+  padding: 2.5rem 4rem;
+  max-width: 800px;
+}
+.articulo-categoria {
+  display: inline-block;
+  background: #14b8a6; color: #fff;
+  padding: 0.25rem 0.75rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 700;
+  margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;
+}
+.articulo-hero-content h1 {
+  font-size: 2rem; font-weight: 800; color: #fff;
+  line-height: 1.2; margin-bottom: 1rem;
+}
+.articulo-meta {
+  display: flex; align-items: center; gap: 0.75rem;
+  font-size: 0.85rem; color: #d1d5db; flex-wrap: wrap;
+}
+.autor-img {
+  width: 36px; height: 36px; border-radius: 50%;
+  object-fit: cover; border: 2px solid #14b8a6;
+}
+.meta-sep { color: #64748b; }
+
+.articulo-content {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.articulo-body { display: flex; flex-direction: column; gap: 1.5rem; }
+.articulo-body h2 {
+  font-size: 1.4rem; font-weight: 800; color: #0f172a;
+  padding-top: 0.5rem;
+}
+.articulo-body p { line-height: 1.8; color: #374151; }
+.lead {
+  font-size: 1.1rem; font-weight: 500; color: #1e293b;
+  border-left: 4px solid #14b8a6; padding-left: 1rem;
+}
+
+.tabla-proteinas {
+  border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;
+}
+.tabla-row {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.9rem;
+}
+.tabla-row:last-child { border-bottom: none; }
+.tabla-header {
+  background: #f8fafc; font-weight: 700;
+  font-size: 0.78rem; text-transform: uppercase;
+  letter-spacing: 0.5px; color: #64748b;
+}
+.tabla-row--highlight { background: #f0fdfa; font-weight: 600; }
+
+.articulo-lista {
+  list-style: none; display: flex; flex-direction: column; gap: 0.6rem;
+}
+.articulo-lista li {
+  padding: 0.5rem 0.75rem;
+  background: #f8fafc; border-radius: 8px;
+  border-left: 3px solid #14b8a6;
+  font-size: 0.9rem;
+}
+
+.articulo-tip {
+  display: flex; gap: 1rem;
+  background: #f0fdfa; border: 1px solid #99f6e4;
+  border-radius: 12px; padding: 1.25rem;
+  font-size: 0.9rem; line-height: 1.6;
+}
+.articulo-tip i { color: #14b8a6; font-size: 1.5rem; flex-shrink: 0; }
+
+.articulo-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+.sidebar-card {
+  background: #f8fafc; border: 1px solid #e2e8f0;
+  border-radius: 16px; padding: 1.5rem;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.sidebar-card h3 { font-size: 0.95rem; font-weight: 700; color: #0f172a; }
+.autor-info { display: flex; gap: 0.75rem; align-items: flex-start; }
+.autor-avatar {
+  width: 48px; height: 48px; background: #0f172a;
+  color: #14b8a6; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.9rem; flex-shrink: 0;
+}
+.autor-info div { display: flex; flex-direction: column; gap: 0.15rem; }
+.autor-info strong { font-size: 0.9rem; color: #0f172a; }
+.autor-info span { font-size: 0.78rem; color: #64748b; }
+.sidebar-card p { font-size: 0.85rem; color: #64748b; line-height: 1.6; }
+.sidebar-cta {
+  display: block; text-align: center;
+  background: #14b8a6; color: #fff;
+  padding: 0.7rem; border-radius: 8px;
+  font-weight: 700; text-decoration: none; font-size: 0.875rem;
+}
+.sidebar-cta:hover { background: #0d9488; }
+.related-link {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  text-decoration: none; color: #374151;
+  font-size: 0.85rem; line-height: 1.4;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  transition: color 0.2s;
+}
+.related-link:last-child { border-bottom: none; }
+.related-link:hover { color: #14b8a6; }
+.related-link i { color: #14b8a6; flex-shrink: 0; margin-top: 2px; }
+
+.articulo-footer-cta {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  padding: 4rem 2rem; text-align: center; margin-top: 2rem;
+}
+.footer-cta-content { max-width: 600px; margin: 0 auto; }
+.footer-cta-content h2 { font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 0.75rem; }
+.footer-cta-content p { color: #94a3b8; margin-bottom: 1.5rem; }
+.btn-cta {
+  display: inline-block;
+  background: #14b8a6; color: #fff;
+  padding: 0.9rem 2rem; border-radius: 999px;
+  font-weight: 700; text-decoration: none; font-size: 1rem;
+}
+.btn-cta:hover { background: #0d9488; }
+
+/* ==========================================================================
+   OPTIMIZACIÓN RESPONSIVE EXCLUSIVA PARA EL COMPONENTE DE ARTÍCULOS
+   ========================================================================== */
+
+/* Ajustes para Tablets y pantallas medianas (900px a menos) */
+@media (max-width: 900px) {
+  .articulo-content {
+    grid-template-columns: 1fr;
+  }
+  .articulo-hero-content {
+    padding: 1.5rem;
+  }
+  .articulo-hero-content h1 {
+    font-size: 1.5rem;
+  }
+  .articulo-nav {
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* FIX CRÍTICO PARA CELULARES (480px a menos)
+   Soluciona el desborde y la deformación del botón "Agendar cita" */
+@media (max-width: 480px) {
+  .articulo-nav {
+    padding: 0.75rem 0.85rem !important; /* Compacta los bordes laterales del navbar */
+    gap: 0.5rem !important;
+  }
+
+  /* Reducimos el tamaño de la tipografía del botón de volver */
+  .nav-back {
+    font-size: 0.78rem !important;
+    gap: 0.2rem !important;
+  }
+
+  /* Reducimos el logo drásticamente para liberar espacio en el centro */
+  .logo-letters {
+    font-size: 1.1rem !important;
+    letter-spacing: -0.5px !important;
+  }
+  .logo-sub {
+    font-size: 0.45rem !important;
+    letter-spacing: 1px !important;
+  }
+
+  /* BLINDAJE PARA EL BOTÓN AGENDAR CITA (.nav-cta) */
+  .nav-cta {
+    padding: 0.45rem 0.75rem !important; /* Padding de tamaño perfecto para pantallas táctiles */
+    font-size: 0.78rem !important; /* Mantiene la legibilidad ideal en móviles */
+    font-weight: 800 !important;
+    white-space: nowrap !important; /* PROHIBE TERMINANTEMENTE QUE EL TEXTO SE ROMPA EN DOS LÍNEAS */
+    display: inline-block !important;
+    flex-shrink: 0 !important; /* Impide que otros elementos aplasten el botón */
+    border-radius: 6px !important; /* Cambia a esquinas redondeadas suaves para mejor lectura en tamaño chico */
+  }
+
+  /* Corrección extra: evitamos que las cajas de fórmulas o tablas rompan el ancho del teléfono */
+  .formula-paso {
+    flex-direction: column !important; /* Cambia los pasos de la fórmula a vertical */
+    gap: 0.5rem !important;
+  }
+}
+
+/* ==========================================================================
+   ESTILOS COMPLEMENTARIOS DEL COMPONENTE
+   ========================================================================== */
+.autor-avatar-small {
+  width: 36px; height: 36px; background: #14b8a6;
+  color: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.75rem; flex-shrink: 0;
+}
+
+.formula-box {
+  border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;
+}
+.formula-titulo {
+  background: #0f172a; color: #14b8a6;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.82rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.formula-pasos { display: flex; flex-direction: column; }
+.formula-paso {
+  display: flex; gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+.formula-paso:last-child { border-bottom: none; }
+.paso-num {
+  width: 28px; height: 28px; background: #14b8a6;
+  color: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.82rem; flex-shrink: 0;
+}
+.formula-paso div { display: flex; flex-direction: column; gap: 0.3rem; }
+.formula-paso strong { font-size: 0.9rem; color: #0f172a; }
+.formula-paso p { font-size: 0.82rem; color: #64748b; line-height: 1.5; }

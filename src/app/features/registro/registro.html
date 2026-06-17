@@ -1,0 +1,64 @@
+<div class="login-container">
+
+  <div class="login-left">
+    <div class="login-left-content">
+      <div class="login-brand">
+        <span class="logo-letters">VS</span>
+        <span class="login-brand-name">NutriPro</span>
+      </div>
+      <p class="login-tagline">Tu rendimiento<br><span>empieza hoy</span></p>
+      <p class="login-tagline-sub">Pedro Luis Castillo · Nutricionista Deportivo</p>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+      <h2>Crear cuenta</h2>
+      <p class="subtitle">Regístrate y agenda tu primera cita</p>
+
+      <div *ngIf="errorMensaje" class="error-alert">
+        {{ errorMensaje }}
+      </div>
+
+      <form (ngSubmit)="registrar()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" name="nombre"
+              [(ngModel)]="datos.nombre"
+              required placeholder="Tu nombre"/>
+          </div>
+          <div class="form-group">
+            <label>Apellido</label>
+            <input type="text" name="apellido"
+              [(ngModel)]="datos.apellido"
+              placeholder="Tu apellido"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" name="email"
+            [(ngModel)]="datos.email"
+            required placeholder="ejemplo@correo.com"/>
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" name="password"
+            [(ngModel)]="datos.password"
+            required placeholder="Mínimo 6 caracteres"/>
+        </div>
+
+        <button type="submit" class="login-btn" [disabled]="cargando">
+          {{ cargando ? 'Creando cuenta...' : 'Crear cuenta' }}
+        </button>
+      </form>
+
+      <p class="login-footer">
+        ¿Ya tienes cuenta? <a routerLink="/login">Iniciar sesión</a>
+      </p>
+    </div>
+  </div>
+
+</div>

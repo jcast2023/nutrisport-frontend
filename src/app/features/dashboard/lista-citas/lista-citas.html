@@ -1,0 +1,23 @@
+<div class="citas-lista">
+  <div *ngIf="citas.length === 0" class="empty-state">
+    <i class="ti ti-calendar-off"></i>
+    <p>No tienes citas agendadas aún.</p>
+  </div>
+
+  <div class="cita-item" *ngFor="let cita of citas">
+    <div class="cita-fecha-col">
+      <span class="cita-dia">{{ cita.fechaHora | date:'dd':'America/Lima' }}</span>
+      <span class="cita-mes">{{ cita.fechaHora | date:'MMM':'America/Lima' | uppercase }}</span>
+    </div>
+    <div class="cita-info-col">
+      <span class="cita-hora">{{ cita.fechaHora | date:'HH:mm':'America/Lima' }} hrs</span>
+      <span class="cita-notas">{{ cita.notas || 'Sin observaciones' }}</span>
+    </div>
+    <span class="estado-badge"
+      [class.estado-pendiente]="cita.estado==='Pendiente'"
+      [class.estado-confirmada]="cita.estado==='Confirmada'"
+      [class.estado-cancelada]="cita.estado==='Cancelada'">
+      {{ cita.estado }}
+    </span>
+  </div>
+</div>

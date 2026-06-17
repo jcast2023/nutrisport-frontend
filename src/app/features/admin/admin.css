@@ -1,0 +1,463 @@
+/* ==========================================================================
+   1. RESET Y CONFIGURACIÓN BASE
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* ==========================================================================
+   2. SIDEBAR / NAVEGACIÓN (VISTA ESCRITORIO POR DEFECTO)
+   ========================================================================== */
+:host ::ng-deep .sidebar {
+  width: 220px;
+  background: #0f172a;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+:host ::ng-deep .sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+  padding: 0 0.5rem;
+}
+
+:host ::ng-deep .logo-letters {
+  width: 36px;
+  height: 36px;
+  background: #14b8a6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+:host ::ng-deep .sidebar-title {
+  font-weight: 700;
+  color: #fff;
+  font-size: 1rem;
+}
+
+:host ::ng-deep .sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+:host ::ng-deep .sidebar-nav::-webkit-scrollbar {
+  width: 0px;
+}
+
+:host ::ng-deep .sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  color: #94a3b8;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+:host ::ng-deep .sidebar-link:hover,
+:host ::ng-deep .sidebar-link.active {
+  background: rgba(20,184,166,0.15);
+  color: #14b8a6;
+}
+
+:host ::ng-deep .sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: none;
+  border: 1px solid #334155;
+  color: #64748b;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.15s;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+:host ::ng-deep .sidebar-logout:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* ==========================================================================
+   3. COMPONENTES Y VISTAS INTERNAS (HEADER, CITAS, PACIENTES)
+   ========================================================================== */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.admin-title { font-size: 1.6rem; font-weight: 800; color: #0f172a; }
+.admin-sub { color: #64748b; font-size: 0.9rem; margin-top: 0.2rem; }
+.header-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+.hstat {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 100px;
+}
+.hstat-num { font-size: 1.5rem; font-weight: 800; color: #14b8a6; }
+.hstat-lbl { font-size: 0.75rem; color: #94a3b8; text-align: center; }
+
+.admin-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Listas comunes */
+.citas-list, .pacientes-list, .alimentos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cita-row, .paciente-row, .alimento-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+}
+
+/* Citas */
+.cita-info { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 0.2rem; }
+.cita-nombre { font-weight: 700; font-size: 0.95rem; color: #1e293b; }
+.cita-fecha { font-size: 0.82rem; color: #64748b; }
+.cita-notes { font-size: 0.82rem; color: #94a3b8; font-style: italic; }
+.cita-actions { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+
+.cita-fecha-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #0f172a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  min-width: 48px;
+  flex-shrink: 0;
+}
+.cita-dia { font-size: 1.2rem; font-weight: 800; line-height: 1; }
+.cita-mes { font-size: 0.65rem; font-weight: 600; color: #14b8a6; letter-spacing: 1px; }
+
+/* Badges de Estado */
+.estado-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.estado-pendiente { background: #fef3c7; color: #92400e; }
+.estado-confirmada { background: #d1fae5; color: #065f46; }
+.estado-cancelada { background: #fee2e2; color: #991b1b; }
+
+/* Botones de acción rápidos */
+.btn-confirmar {
+  background: #14b8a6; color: #fff; border: none;
+  padding: 0.45rem 0.85rem; border-radius: 6px; font-size: 0.8rem;
+  font-weight: 600; cursor: pointer; transition: background 0.15s;
+}
+.btn-confirmar:hover { background: #0d9488; }
+
+.btn-cancelar {
+  background: none; color: #94a3b8; border: 1px solid #e2e8f0;
+  padding: 0.45rem 0.85rem; border-radius: 6px; font-size: 0.8rem;
+  font-weight: 600; cursor: pointer; transition: all 0.15s;
+}
+.btn-cancelar:hover { border-color: #ef4444; color: #ef4444; }
+
+/* Pacientes */
+.paciente-avatar {
+  width: 44px; height: 44px; background: #0f172a; color: #14b8a6;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.9rem; flex-shrink: 0;
+}
+.paciente-info { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 0.15rem; }
+.paciente-nombre { font-weight: 700; font-size: 0.95rem; color: #1e293b; }
+.paciente-email { font-size: 0.82rem; color: #64748b; }
+.paciente-fecha { font-size: 0.78rem; color: #94a3b8; }
+
+.btn-objetivo, .btn-ficha, .btn-medicion {
+  display: flex; align-items: center; gap: 0.4rem;
+  padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.82rem;
+  font-weight: 600; cursor: pointer; transition: all 0.15s; flex-shrink: 0;
+}
+.btn-objetivo { background: #0f172a; color: #14b8a6; border: 1px solid #14b8a6; }
+.btn-objetivo:hover { background: #14b8a6; color: #fff; }
+
+.btn-ficha { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+.btn-ficha:hover { background: #0f172a; color: #14b8a6; border-color: #14b8a6; }
+
+.btn-medicion { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.btn-medicion:hover { background: #14b8a6; color: #fff; border-color: #14b8a6; }
+
+/* Alimentos & Macros */
+.alimento-info { flex: 1; min-width: 150px; display: flex; flex-direction: column; gap: 0.35rem; }
+.alimento-nombre { font-weight: 700; font-size: 0.9rem; color: #1e293b; }
+.alimento-macros { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.macro-tag {
+  padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600;
+  background: #f0fdf4; color: #166534;
+}
+.macro-tag--prot { background: #eff6ff; color: #1d4ed8; }
+.macro-tag--carb { background: #fffbeb; color: #92400e; }
+.macro-tag--gras { background: #fef2f2; color: #991b1b; }
+.alimento-actions { display: flex; gap: 0.4rem; margin-left: auto; }
+
+.btn-editar {
+  background: #f1f5f9; border: none; color: #475569;
+  padding: 0.4rem 0.6rem; border-radius: 6px;
+  cursor: pointer; transition: all 0.15s; font-size: 0.9rem;
+}
+.btn-editar:hover { background: #14b8a6; color: #fff; }
+
+/* Ficha Médica */
+.ficha-resumen {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem; margin-bottom: 1rem;
+}
+.ficha-stat {
+  background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 0.75rem;
+}
+.ficha-lbl { font-size: 0.7rem; font-weight: 600; color: #64748b; text-transform: uppercase; }
+.ficha-val { font-size: 1.3rem; font-weight: 800; color: #0f172a; }
+
+.ficha-table { display: flex; flex-direction: column; gap: 0.4rem; overflow-x: auto; }
+.ficha-table-header, .ficha-table-row {
+  display: grid; grid-template-columns: 1.2fr repeat(5, 1fr); min-width: 600px; padding: 0.65rem 0.75rem;
+}
+.ficha-table-header { font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+.ficha-table-row { background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px; font-size: 0.875rem; }
+
+.empty-state { text-align: center; padding: 3rem; color: #94a3b8; }
+
+/* ==========================================================================
+   4. MODALES CON ENCAPSULACIÓN COMPLETA
+   ========================================================================== */
+:host ::ng-deep .modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); /* Un poco más oscuro para mejor contraste */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999 !important; /* Forzamos que rompa cualquier contexto de apilamiento */
+  padding: 1rem;
+}
+
+:host ::ng-deep .modal-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem; /* Reducimos levemente para ganar espacio en pantallas chicas */
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-height: 85vh; /* Evita que el modal choque con los bordes de la pantalla física */
+  overflow-y: auto; /* Activa el scroll interno si los inputs miden más que la pantalla */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Espacio extra de seguridad al final del scroll interno del modal */
+:host ::ng-deep .modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-bottom: 2rem; /* <--- Esto garantiza que el botón de guardar se pueda scrollear por completo */
+}
+
+:host ::ng-deep .modal-box--wide { max-width: 720px; }
+:host ::ng-deep .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+:host ::ng-deep .modal-header h3 { font-size: 1.1rem; font-weight: 800; color: #0f172a; }
+:host ::ng-deep .modal-close { background: none; border: none; cursor: pointer; color: #94a3b8; font-size: 1.2rem; }
+:host ::ng-deep .modal-close:hover { color: #ef4444; }
+:host ::ng-deep .modal-sub { font-size: 0.875rem; color: #64748b; margin-bottom: 1.5rem; }
+:host ::ng-deep .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+:host ::ng-deep .form-group label { font-size: 0.78rem; font-weight: 600; color: #64748b; text-transform: uppercase; }
+:host ::ng-deep .form-input { padding: 0.7rem 1rem; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; outline: none; }
+:host ::ng-deep .form-input:focus { border-color: #14b8a6; }
+
+:host ::ng-deep .btn-guardar {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background: #14b8a6; color: #fff; border: none; padding: 0.85rem;
+  border-radius: 8px; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  width: 100%;
+  flex-shrink: 0; /* Evita que flexbox intente aplastar o deformar el botón */
+}
+:host ::ng-deep .btn-guardar:hover { background: #0d9488; }
+
+:host ::ng-deep .medicion-form-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;
+}
+
+/* ==========================================================================
+   5. MEDIA QUERIES RESPONSIVAS CRÍTICAS (PARA PANTALLAS MENORES A 1024PX)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* Forzamos el flujo vertical del layout base */
+  .admin-wrapper {
+    flex-direction: column;
+  }
+
+  /* Transformación completa de la Sidebar a Navbar Inferior */
+  :host ::ng-deep .sidebar {
+    width: 100% !important;
+    height: 65px !important;
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    flex-direction: row !important;
+    padding: 0 1rem !important;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -4px 25px rgba(15, 23, 42, 0.2);
+    overflow: hidden;
+  }
+
+  /* Ocultamos marca/logo para maximizar espacio útil */
+  :host ::ng-deep .sidebar-brand {
+    display: none !important;
+  }
+  :host ::ng-deep .modal-box {
+    max-height: 80vh !important; /* Le damos un margen más estricto en móviles */
+    padding: 1.25rem !important;
+  }
+
+  /* Orientación horizontal para la lista de navegación */
+  :host ::ng-deep .sidebar-nav {
+    flex-direction: row !important;
+    gap: 0.25rem !important;
+    margin-bottom: 0 !important;
+    flex: 1;
+    justify-content: space-around;
+  }
+
+  /* Estilizado compacto de los enlaces del menú inferior */
+  :host ::ng-deep .sidebar-link {
+    padding: 0.5rem 0.8rem !important;
+    font-size: 0.85rem !important;
+    flex-direction: column;
+    gap: 0.1rem !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Ajuste de logout en móviles */
+  :host ::ng-deep .sidebar-logout {
+    margin-top: 0 !important;
+    padding: 0.5rem !important;
+    border: none !important;
+    color: #ef4444 !important;
+  }
+
+  :host ::ng-deep .sidebar-logout span {
+    display: none; /* Oculta el texto "Cerrar sesión" dejando solo el icono */
+  }
+
+  /* Padding inferior de seguridad en la zona principal para evitar solapamiento */
+  .admin-main {
+    padding: 1.25rem;
+    padding-bottom: 85px !important;
+  }
+
+  /* Optimización de grillas internas en tarjetas */
+  .admin-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .header-stats {
+    width: 100%;
+  }
+
+
+  /* Los formularios de modales pasan a 1 sola columna vertical */
+  :host ::ng-deep .medicion-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.6rem !important;
+  }
+
+  /* Evitamos que las acciones queden flotando erráticamente */
+  .alimento-actions {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

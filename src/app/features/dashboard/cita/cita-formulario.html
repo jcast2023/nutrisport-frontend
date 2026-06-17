@@ -1,0 +1,28 @@
+<div class="cita-form">
+  <div class="form-group">
+    <label><i class="ti ti-calendar"></i> Fecha y hora</label>
+    <input
+      type="datetime-local"
+      [(ngModel)]="cita.fechaHora"
+      class="form-input"
+    />
+  </div>
+
+  <div class="form-group">
+    <label><i class="ti ti-notes"></i> Motivo / observaciones</label>
+    <textarea
+      [(ngModel)]="cita.notas"
+      placeholder="Ej: consulta inicial, control mensual, alergias..."
+      class="form-input form-textarea"
+    ></textarea>
+  </div>
+
+  <button
+    (click)="guardarCita()"
+    [disabled]="cargando"
+    class="btn-agendar"
+  >
+    <i class="ti ti-calendar-plus"></i>
+    {{ cargando ? 'Enviando...' : 'Confirmar cita' }}
+  </button>
+</div>

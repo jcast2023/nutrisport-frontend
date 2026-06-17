@@ -1,0 +1,234 @@
+.medicion-wrapper { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.medicion-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+.resumen-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex; flex-direction: column; gap: 0.25rem;
+}
+.resumen-label {
+  font-size: 0.75rem; font-weight: 600;
+  color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.resumen-val {
+  font-size: 1.6rem; font-weight: 800; color: #0f172a; line-height: 1;
+}
+.resumen-val small { font-size: 0.75rem; font-weight: 500; color: #94a3b8; }
+.resumen-cat { font-size: 0.8rem; font-weight: 600; }
+
+.empty-state {
+  text-align: center; padding: 2rem;
+  color: #94a3b8; font-size: 0.95rem;
+}
+.empty-state i { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+
+.btn-nueva {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: #0f172a; color: #14b8a6;
+  border: 1px solid #14b8a6; padding: 0.7rem 1.25rem;
+  border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+  width: fit-content;
+}
+.btn-nueva:hover { background: #14b8a6; color: #fff; }
+
+.medicion-form {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem; /* <-- El secreto: da espacio para que suba todo el bloque al hacer scroll */
+}
+
+.form-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-group label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input {
+  padding: 0.65rem 0.875rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+  background: #fff;
+}
+
+.form-input:focus {
+  border-color: #14b8a6;
+}
+
+.form-textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+/* BOTÓN GUARDAR: Añadimos transiciones de escala suaves, mejoramos la altura
+   e impedimos que se rompa el texto interno */
+.btn-guardar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #14b8a6;
+  color: #fff;
+  border: none;
+  padding: 0.85rem 1.5rem; /* En móviles, un botón ligeramente más alto es más fácil de pulsar */
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 1.25rem;
+  width: 100%;
+  white-space: nowrap; /* Evita que el texto salte a dos líneas si la pantalla es muy angosta */
+}
+
+.btn-guardar:hover:not(:disabled) {
+  background: #0d9488;
+}
+
+.btn-guardar:active:not(:disabled) {
+  transform: scale(0.98); /* Pequeño efecto feedback al presionarlo */
+}
+
+.btn-guardar:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.historial-title {
+  font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 0.75rem;
+}
+.historial-table { display: flex; flex-direction: column; gap: 0.4rem; }
+.table-header {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr 0.7fr 0.8fr 0.4fr;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.72rem; font-weight: 700;
+  color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.table-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr 0.7fr 0.8fr 0.4fr;
+  padding: 0.75rem;
+  background: #f8fafc; border: 1px solid #f1f5f9;
+  border-radius: 8px; align-items: center;
+  font-size: 0.875rem; color: #1e293b;
+}
+.fecha-cell { color: #64748b; font-size: 0.82rem; }
+.imc-badge {
+  padding: 0.2rem 0.5rem; border-radius: 6px;
+  font-size: 0.78rem; font-weight: 700;
+}
+.btn-del {
+  background: none; border: none; cursor: pointer;
+  color: #cbd5e1; font-size: 0.9rem; padding: 0.25rem;
+  border-radius: 6px; transition: color 0.15s;
+}
+.btn-del:hover { color: #ef4444; }
+
+@media (max-width: 768px) {
+  .form-grid { grid-template-columns: repeat(2, 1fr); }
+  .table-header, .table-row { grid-template-columns: 1fr 1fr 1fr; }
+  .medicion-form {
+    margin-bottom: 4.5rem; /* Deja suficiente espacio libre arriba de la barra de navegación */
+    padding: 1.2rem;       /* Compactamos sutilmente el relleno interno */
+  }
+}
+.graficos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.grafico-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.grafico-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.grafico-title i { color: #14b8a6; }
+
+.graficos-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.graficos-hint i { color: #14b8a6; }
+
+.variacion {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+@media (max-width: 768px) {
+  .graficos-grid { grid-template-columns: 1fr; }
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr); /* O déjalo en auto-fit */
+  }
+
+  .medicion-form {
+    padding: 1rem;       /* Reducimos el espacio interno para ganar pantalla */
+    margin-bottom: 5rem; /* Asegura un excelente colchón de espacio abajo del botón */
+  }
+
+  .btn-guardar {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem; /* Ajuste sutil de altura en móviles */
+    width: 100%;
+    white-space: nowrap;
+  }
+
+}

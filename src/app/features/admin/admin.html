@@ -1,0 +1,350 @@
+<div class="admin-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="logo-letters">VS</span>
+      <span class="sidebar-title">Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" [class.active]="seccionActiva==='citas'"
+         (click)="cambiarSeccion('citas')">
+        <i class="ti ti-calendar"></i> Citas
+      </a>
+      <a class="sidebar-link" [class.active]="seccionActiva==='pacientes'"
+         (click)="cambiarSeccion('pacientes')">
+        <i class="ti ti-users"></i> Pacientes
+      </a>
+      <a class="sidebar-link" [class.active]="seccionActiva==='alimentos'"
+         (click)="cambiarSeccion('alimentos')">
+        <i class="ti ti-salad"></i> Alimentos
+      </a>
+    </nav>
+    <button class="sidebar-logout" (click)="cerrarSesion()">
+      <i class="ti ti-logout"></i> Cerrar sesión
+    </button>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <div>
+        <h1 class="admin-title">Panel de administración</h1>
+        <p class="admin-sub">Pedro Luis Castillo</p>
+      </div>
+      <div class="header-stats">
+        <div class="hstat">
+          <span class="hstat-num">{{ citas.length }}</span>
+          <span class="hstat-lbl">total citas</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-num">{{ citasPendientes.length }}</span>
+          <span class="hstat-lbl">pendientes</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-num">{{ citasConfirmadas.length }}</span>
+          <span class="hstat-lbl">confirmadas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CITAS -->
+    <section *ngIf="seccionActiva==='citas'" class="admin-card">
+      <h2 class="card-title">Gestión de citas</h2>
+      <div *ngIf="citas.length === 0" class="empty-state">
+        <i class="ti ti-calendar-off"></i>
+        <p>No hay citas registradas aún.</p>
+      </div>
+      <div class="citas-list" *ngIf="citas.length > 0">
+        <div class="cita-row" *ngFor="let cita of citas">
+          <div class="cita-fecha-col">
+            <span class="cita-dia">{{ cita.fechaHora | date:'dd' }}</span>
+            <span class="cita-mes">{{ cita.fechaHora | date:'MMM' | uppercase }}</span>
+          </div>
+          <div class="cita-info">
+            <span class="cita-nombre">{{ cita.nombrePaciente }}</span>
+            <span class="cita-hora">{{ cita.fechaHora | date:'HH:mm' }} hrs</span>
+            <span class="cita-notas" *ngIf="cita.notas">{{ cita.notas }}</span>
+          </div>
+          <div class="cita-actions">
+            <span class="estado-badge"
+              [class.estado-pendiente]="cita.estado==='Pendiente'"
+              [class.estado-confirmada]="cita.estado==='Confirmada'"
+              [class.estado-cancelada]="cita.estado==='Cancelada'">
+              {{ cita.estado }}
+            </span>
+            <button class="btn-confirmar" *ngIf="cita.estado==='Pendiente'"
+              (click)="cambiarEstado(cita.id, 'Confirmada')">
+              <i class="ti ti-check"></i> Confirmar
+            </button>
+            <button class="btn-cancelar" *ngIf="cita.estado!=='Cancelada'"
+              (click)="cambiarEstado(cita.id, 'Cancelada')">
+              <i class="ti ti-x"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACIENTES -->
+    <section *ngIf="seccionActiva==='pacientes'" class="admin-card">
+      <h2 class="card-title">Pacientes registrados</h2>
+      <div *ngIf="pacientes.length === 0" class="empty-state">
+        <i class="ti ti-users"></i>
+        <p>No hay pacientes registrados aún.</p>
+      </div>
+      <div class="pacientes-list" *ngIf="pacientes.length > 0">
+        <div class="paciente-row" *ngFor="let p of pacientes">
+          <div class="paciente-avatar">
+            {{ p.nombre.charAt(0) }}{{ p.apellido.charAt(0) }}
+          </div>
+          <div class="paciente-info">
+            <span class="paciente-nombre">{{ p.nombre }} {{ p.apellido }}</span>
+            <span class="paciente-email">{{ p.email }}</span>
+            <span class="paciente-fecha">Registrado: {{ p.fechaRegistro | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <button class="btn-objetivo" (click)="abrirFormObjetivo(p)">
+            <i class="ti ti-target"></i> Asignar objetivo
+          </button>
+          <button class="btn-ficha" (click)="verFichaPaciente(p)">
+            <i class="ti ti-eye"></i> Ver ficha
+          </button>
+          <button class="btn-medicion" (click)="abrirFormMedicion(p)">
+            <i class="ti ti-ruler-measure"></i> Registrar medición
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALIMENTOS -->
+    <section *ngIf="seccionActiva==='alimentos'" class="admin-card">
+      <div class="card-title-row">
+        <h2 class="card-title" style="margin-bottom:0">Catálogo de alimentos</h2>
+        <button class="btn-confirmar" (click)="abrirFormAlimento()">
+          <i class="ti ti-plus"></i> Nuevo alimento
+        </button>
+      </div>
+      <div *ngIf="alimentos.length === 0" class="empty-state">
+        <i class="ti ti-salad"></i>
+        <p>No hay alimentos en el catálogo.</p>
+      </div>
+      <div class="alimentos-list" *ngIf="alimentos.length > 0">
+        <div class="alimento-row" *ngFor="let a of alimentos">
+          <div class="alimento-info">
+            <span class="alimento-nombre">{{ a.nombre }}</span>
+            <div class="alimento-macros">
+              <span class="macro-tag">{{ a.calorias }} kcal</span>
+              <span class="macro-tag macro-tag--prot">P: {{ a.proteinas }}g</span>
+              <span class="macro-tag macro-tag--carb">C: {{ a.carbohidratos }}g</span>
+              <span class="macro-tag macro-tag--gras">G: {{ a.grasas }}g</span>
+            </div>
+          </div>
+          <div class="alimento-actions">
+            <button class="btn-editar" (click)="abrirFormAlimento(a)">
+              <i class="ti ti-pencil"></i>
+            </button>
+            <button class="btn-cancelar" (click)="eliminarAlimento(a.id)">
+              <i class="ti ti-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL ALIMENTO -->
+    <div class="modal-overlay" *ngIf="mostrandoFormAlimento" (click)="mostrandoFormAlimento=false">
+      <div class="modal-box" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>{{ alimentoEditandoId ? 'Editar alimento' : 'Nuevo alimento' }}</h3>
+          <button class="modal-close" (click)="mostrandoFormAlimento=false">
+            <i class="ti ti-x"></i>
+          </button>
+        </div>
+        <p class="modal-sub">Valores por cada 100g del alimento</p>
+        <div class="modal-form">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" [(ngModel)]="alimentoForm.nombre" class="form-input" placeholder="Ej: Pechuga de pollo"/>
+          </div>
+          <div class="form-group">
+            <label>Calorías (kcal)</label>
+            <input type="number" [(ngModel)]="alimentoForm.calorias" class="form-input" placeholder="Ej: 165"/>
+          </div>
+          <div class="form-group">
+            <label>Proteínas (g)</label>
+            <input type="number" [(ngModel)]="alimentoForm.proteinas" class="form-input" placeholder="Ej: 31"/>
+          </div>
+          <div class="form-group">
+            <label>Carbohidratos (g)</label>
+            <input type="number" [(ngModel)]="alimentoForm.carbohidratos" class="form-input" placeholder="Ej: 0"/>
+          </div>
+          <div class="form-group">
+            <label>Grasas (g)</label>
+            <input type="number" [(ngModel)]="alimentoForm.grasas" class="form-input" placeholder="Ej: 3.6"/>
+          </div>
+          <button class="btn-guardar" (click)="guardarAlimento()">
+            <i class="ti ti-check"></i> {{ alimentoEditandoId ? 'Actualizar' : 'Agregar alimento' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL OBJETIVO -->
+    <div class="modal-overlay" *ngIf="mostrandoFormObjetivo" (click)="mostrandoFormObjetivo=false">
+      <div class="modal-box" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Asignar objetivo nutricional</h3>
+          <button class="modal-close" (click)="mostrandoFormObjetivo=false">
+            <i class="ti ti-x"></i>
+          </button>
+        </div>
+        <p class="modal-sub">Paciente: <strong>{{ pacienteSeleccionado?.nombre }} {{ pacienteSeleccionado?.apellido }}</strong></p>
+        <div class="modal-form">
+          <div class="form-group">
+            <label>Calorías diarias (kcal)</label>
+            <input type="number" [(ngModel)]="objetivoForm.caloriasObjetivo" class="form-input" placeholder="Ej: 2000"/>
+          </div>
+          <div class="form-group">
+            <label>Proteínas (g)</label>
+            <input type="number" [(ngModel)]="objetivoForm.proteinasObjetivo" class="form-input" placeholder="Ej: 150"/>
+          </div>
+          <div class="form-group">
+            <label>Carbohidratos (g)</label>
+            <input type="number" [(ngModel)]="objetivoForm.carbohidratosObjetivo" class="form-input" placeholder="Ej: 250"/>
+          </div>
+          <div class="form-group">
+            <label>Grasas (g)</label>
+            <input type="number" [(ngModel)]="objetivoForm.grasasObjetivo" class="form-input" placeholder="Ej: 65"/>
+          </div>
+          <button class="btn-guardar" (click)="asignarObjetivo()">
+            <i class="ti ti-check"></i> Guardar objetivo
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- MODAL FICHA CLÍNICA -->
+<div class="modal-overlay" *ngIf="mostrandoFicha" (click)="mostrandoFicha=false">
+  <div class="modal-box modal-box--wide" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Ficha clínica — {{ pacienteFicha?.nombre }} {{ pacienteFicha?.apellido }}</h3>
+      <button class="modal-close" (click)="mostrandoFicha=false">
+        <i class="ti ti-x"></i>
+      </button>
+    </div>
+
+    <div *ngIf="medicionesPaciente.length === 0" class="empty-state">
+      <i class="ti ti-ruler-measure"></i>
+      <p>Este paciente aún no tiene mediciones registradas.</p>
+    </div>
+
+    <div *ngIf="medicionesPaciente.length > 0">
+      <!-- Última medición destacada -->
+      <div class="ficha-resumen">
+        <div class="ficha-stat">
+          <span class="ficha-lbl">Peso actual</span>
+          <span class="ficha-val">{{ medicionesPaciente[0].peso }} kg</span>
+        </div>
+        <div class="ficha-stat">
+          <span class="ficha-lbl">Talla</span>
+          <span class="ficha-val">{{ medicionesPaciente[0].talla }} cm</span>
+        </div>
+        <div class="ficha-stat">
+          <span class="ficha-lbl">IMC</span>
+          <span class="ficha-val"
+            [style.color]="medicionesPaciente[0].imc < 25 ? '#14b8a6' : medicionesPaciente[0].imc < 30 ? '#f59e0b' : '#ef4444'">
+            {{ medicionesPaciente[0].imc }}
+          </span>
+        </div>
+        <div class="ficha-stat" *ngIf="medicionesPaciente[0].cinturasCm">
+          <span class="ficha-lbl">Cintura</span>
+          <span class="ficha-val">{{ medicionesPaciente[0].cinturasCm }} cm</span>
+        </div>
+        <div class="ficha-stat" *ngIf="medicionesPaciente[0].porcentajeGrasa">
+          <span class="ficha-lbl">% Grasa</span>
+          <span class="ficha-val">{{ medicionesPaciente[0].porcentajeGrasa }}%</span>
+        </div>
+        <div class="ficha-stat" *ngIf="medicionesPaciente[0].masaMuscular">
+          <span class="ficha-lbl">Masa muscular</span>
+          <span class="ficha-val">{{ medicionesPaciente[0].masaMuscular }} kg</span>
+        </div>
+      </div>
+
+      <!-- Historial -->
+      <h4 style="font-size:0.85rem;font-weight:700;color:#64748b;margin:1.25rem 0 0.75rem;text-transform:uppercase;letter-spacing:0.5px">
+        Historial de mediciones
+      </h4>
+      <div class="ficha-table">
+        <div class="ficha-table-header">
+          <span>Fecha</span>
+          <span>Peso</span>
+          <span>IMC</span>
+          <span>Cintura</span>
+          <span>% Grasa</span>
+          <span>Músculo</span>
+        </div>
+        <div class="ficha-table-row" *ngFor="let m of medicionesPaciente">
+          <span style="color:#64748b;font-size:0.82rem">{{ m.fecha | date:'dd/MM/yyyy' }}</span>
+          <span><strong>{{ m.peso }}</strong> kg</span>
+          <span>
+            <span class="imc-badge"
+              [style.background]="m.imc < 25 ? '#d1fae5' : m.imc < 30 ? '#fef3c7' : '#fee2e2'"
+              [style.color]="m.imc < 25 ? '#065f46' : m.imc < 30 ? '#92400e' : '#991b1b'">
+              {{ m.imc }}
+            </span>
+          </span>
+          <span>{{ m.cinturasCm ?? '—' }} cm</span>
+          <span>{{ m.porcentajeGrasa ?? '—' }}%</span>
+          <span>{{ m.masaMuscular ?? '—' }} kg</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- MODAL REGISTRAR MEDICIÓN -->
+<div class="modal-overlay" *ngIf="mostrandoFormMedicion" (click)="mostrandoFormMedicion=false">
+  <div class="modal-box modal-box--wide" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Registrar medición — {{ pacienteMedicion?.nombre }} {{ pacienteMedicion?.apellido }}</h3>
+      <button class="modal-close" (click)="mostrandoFormMedicion=false">
+        <i class="ti ti-x"></i>
+      </button>
+    </div>
+    <p class="modal-sub">Valores tomados durante la consulta {{ pacienteMedicion?.nombre }}</p>
+    <div class="modal-form">
+      <div class="medicion-form-grid">
+        <div class="form-group">
+          <label>Peso (kg) *</label>
+          <input type="number" [(ngModel)]="medicionForm.peso" class="form-input" placeholder="Ej: 75.5" step="0.1"/>
+        </div>
+        <div class="form-group">
+          <label>Talla (cm) *</label>
+          <input type="number" [(ngModel)]="medicionForm.talla" class="form-input" placeholder="Ej: 170" step="0.1"/>
+        </div>
+        <div class="form-group">
+          <label>Cintura (cm)</label>
+          <input type="number" [(ngModel)]="medicionForm.cinturasCm" class="form-input" placeholder="Ej: 80" step="0.1"/>
+        </div>
+        <div class="form-group">
+          <label>Cadera (cm)</label>
+          <input type="number" [(ngModel)]="medicionForm.caderaCm" class="form-input" placeholder="Ej: 95" step="0.1"/>
+        </div>
+        <div class="form-group">
+          <label>% Grasa corporal</label>
+          <input type="number" [(ngModel)]="medicionForm.porcentajeGrasa" class="form-input" placeholder="Ej: 22.5" step="0.1"/>
+        </div>
+        <div class="form-group">
+          <label>Masa muscular (kg)</label>
+          <input type="number" [(ngModel)]="medicionForm.masaMuscular" class="form-input" placeholder="Ej: 35.2" step="0.1"/>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:0.75rem">
+        <label>Notas clínicas</label>
+        <textarea [(ngModel)]="medicionForm.notas" class="form-input"
+          style="min-height:70px;resize:vertical"
+          placeholder="Observaciones de la consulta..."></textarea>
+      </div>
+      <button class="btn-guardar" (click)="registrarMedicionPaciente()">
+        <i class="ti ti-check"></i> Guardar medición
+      </button>
+    </div>
+  </div>
+</div>
+  </main>
+</div>

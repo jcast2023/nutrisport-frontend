@@ -1,0 +1,81 @@
+.citas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+.empty-state i {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.cita-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  transition: border-color 0.15s;
+}
+.cita-item:hover { border-color: #14b8a6; }
+
+.cita-fecha-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  min-width: 48px;
+  flex-shrink: 0;
+}
+.cita-dia {
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.cita-mes {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #14b8a6;
+  letter-spacing: 1px;
+}
+
+.cita-info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.cita-hora {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+.cita-notas {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+.estado-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.estado-pendiente { background: #fef3c7; color: #92400e; }
+.estado-confirmada { background: #d1fae5; color: #065f46; }
+.estado-cancelada { background: #fee2e2; color: #991b1b; }
