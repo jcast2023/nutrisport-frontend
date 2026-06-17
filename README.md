@@ -20,38 +20,41 @@ Aplicación web para el sistema de nutrición deportiva **NutriSport**, desarrol
 ---
 
 ## 📁 Estructura del proyecto
-src/app/
-├── core/
-│ ├── guards/
-│ │ ├── auth-guard.ts # Protege rutas privadas
-│ │ └── public-guard.ts # Redirige si ya está logueado
-│ ├── interceptors/
-│ │ └── auth-interceptor.ts # Inyecta JWT en cada request
-│ └── services/
-│ ├── auth.ts # Login, logout, roles
-│ ├── alimento.ts # Catálogo de alimentos
-│ ├── cita.service.ts # Gestión de citas
-│ └── consumo.ts # Registro de consumos
-├── features/
-│ ├── home/ # Landing page pública
-│ ├── login/ # Inicio de sesión
-│ ├── registro/ # Registro de pacientes
-│ ├── dashboard/ # Panel del paciente
-│ │ ├── components/
-│ │ │ └── consumo-formulario/
-│ │ ├── cita/
-│ │ │ └── cita-formulario/
-│ │ ├── lista-citas/
-│ │ └── mediciones/ # Ficha clínica
-│ ├── admin/ # Panel del nutricionista
-│ └── blog/
-│ ├── articulo-1/ # Proteínas
-│ ├── articulo-2/ # Timing nutricional
-│ └── articulo-3/ # Déficit calórico
-└── shared/
-└── models/
 
-text
+- `src/app/`
+  - `core/`
+    - `guards/`
+      - `auth-guard.ts` — Protege rutas privadas.
+      - `public-guard.ts` — Redirige si ya está logueado.
+    - `interceptors/`
+      - `auth-interceptor.ts` — Inyecta JWT en cada request.
+    - `services/`
+      - `auth.ts` — Login, logout, roles.
+      - `alimento.ts` — Catálogo de alimentos.
+      - `cita.service.ts` — Gestión de citas.
+      - `consumo.ts` — Registro de consumos.
+  - `features/`
+    - `home/` — Landing page pública.
+    - `login/` — Inicio de sesión.
+    - `registro/` — Registro de pacientes.
+    - `dashboard/` — Panel del paciente.
+      - `components/`
+        - `consumo-formulario/`
+        - `food-card/`
+        - `footer/`
+        - `hero-section/`
+        - `navbar/`
+      - `cita/`
+        - `cita-formulario/`
+      - `lista-citas/`
+      - `mediciones/` — Ficha clínica.
+    - `admin/` — Panel del nutricionista.
+    - `blog/`
+      - `articulo-1/` — Proteínas.
+      - `articulo-2/` — Timing nutricional.
+      - `articulo-3/` — Déficit calórico.
+  - `shared/`
+    - `models/`
 
 ---
 
@@ -104,7 +107,7 @@ text
    npm install
    ```
 
-3. **Configura la URL del backend** si es diferente a `https://localhost:7234` (edita los servicios en `src/app/core/services/`).
+3. **Configura la URL del backend** si es diferente a `https://localhost:7234` editando los servicios en `src/app/core/services/`.
 
 4. **Ejecuta el servidor de desarrollo:**
    ```bash
