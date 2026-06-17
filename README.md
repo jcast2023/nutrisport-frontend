@@ -1,59 +1,141 @@
-# NutricionMacrosFront
+# NutriSport Frontend 🥗
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
+[![Angular](https://img.shields.io/badge/Angular-20-DD0031.svg)](https://angular.io)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## Development server
+Aplicación web para el sistema de nutrición deportiva **NutriSport**, desarrollada con Angular 20.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## 🚀 Tecnologías
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+| Tecnología | Uso |
+|------------|-----|
+| **Angular 20** | Framework principal (standalone components) |
+| **ng2-charts + Chart.js** | Gráficos de macros y evolución corporal |
+| **SweetAlert2** | Alertas y modales elegantes |
+| **Tabler Icons** | Iconografía |
+| **Tailwind CSS** | Utilidades de estilo (parcial) |
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 📁 Estructura del proyecto
+src/app/
+├── core/
+│ ├── guards/
+│ │ ├── auth-guard.ts # Protege rutas privadas
+│ │ └── public-guard.ts # Redirige si ya está logueado
+│ ├── interceptors/
+│ │ └── auth-interceptor.ts # Inyecta JWT en cada request
+│ └── services/
+│ ├── auth.ts # Login, logout, roles
+│ ├── alimento.ts # Catálogo de alimentos
+│ ├── cita.service.ts # Gestión de citas
+│ └── consumo.ts # Registro de consumos
+├── features/
+│ ├── home/ # Landing page pública
+│ ├── login/ # Inicio de sesión
+│ ├── registro/ # Registro de pacientes
+│ ├── dashboard/ # Panel del paciente
+│ │ ├── components/
+│ │ │ └── consumo-formulario/
+│ │ ├── cita/
+│ │ │ └── cita-formulario/
+│ │ ├── lista-citas/
+│ │ └── mediciones/ # Ficha clínica
+│ ├── admin/ # Panel del nutricionista
+│ └── blog/
+│ ├── articulo-1/ # Proteínas
+│ ├── articulo-2/ # Timing nutricional
+│ └── articulo-3/ # Déficit calórico
+└── shared/
+└── models/
 
-```bash
-ng generate component component-name
-```
+text
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 🗺️ Rutas
 
-## Building
+| Ruta | Componente | Acceso |
+|------|------------|--------|
+| `/home` | Home | Público |
+| `/login` | Login | Público |
+| `/registro` | Registro | Público |
+| `/dashboard` | Dashboard | Atleta |
+| `/admin` | Admin | Nutricionista |
+| `/blog/proteinas` | Articulo1 | Público |
+| `/blog/timing-nutricional` | Articulo2 | Público |
+| `/blog/deficit-calorico` | Articulo3 | Público |
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## 👤 Roles y vistas
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 🧑 Paciente (Atleta)
 
-## Running unit tests
+| Sección | Descripción |
+|---------|-------------|
+| **Resumen** | Totales del día + gráfico de macros |
+| **Mis macros** | Registro de consumos diarios |
+| **Mis citas** | Agendar y ver citas |
+| **Mi objetivo** | Barras de progreso vs meta asignada |
+| **Mi ficha** | Mediciones corporales + gráficos de evolución |
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### 👨‍💼 Nutricionista (Admin)
 
-```bash
-ng test
-```
+| Sección | Descripción |
+|---------|-------------|
+| **Citas** | Gestión y cambio de estado |
+| **Pacientes** | Lista, ficha clínica, asignación de objetivos |
+| **Alimentos** | CRUD del catálogo |
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## ⚙️ Configuración local
 
-```bash
-ng e2e
-```
+1. **Clona el repositorio:**
+   ```bash
+   git clone https://github.com/jcast2023/nutrisport-frontend.git
+   ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+2. **Instala dependencias:**
+   ```bash
+   npm install
+   ```
 
-## Additional Resources
+3. **Configura la URL del backend** si es diferente a `https://localhost:7234` (edita los servicios en `src/app/core/services/`).
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+4. **Ejecuta el servidor de desarrollo:**
+   ```bash
+   ng serve --open
+   ```
+
+5. **Accede en:** `http://localhost:4200`
+
+6. **Build para producción:**
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 🔗 Repositorio relacionado
+
+| Proyecto | Link |
+|----------|------|
+| **Backend** | [nutrisport-backend](https://github.com/jcast2023/nutrisport-backend) |
+
+---
+
+## 👨‍💻 Desarrollador
+
+Desarrollado por **Julio Castillo** como proyecto de portafolio.
+
+- 🌐 GitHub: [@jcast2023](https://github.com/jcast2023)
+
+---
+
+## 📄 License
+
+MIT License - consulta el archivo [LICENSE](LICENSE) para más detalles.
