@@ -50,32 +50,48 @@
         <div class="form-group">
           <label>Contraseña <span class="required">*</span></label>
           <div class="password-wrapper">
-            <input
-              [type]="mostrarPassword ? 'text' : 'password'"
-              name="password"
-              [(ngModel)]="datos.password"
-              [class.input-error]="errores.password"
-              placeholder="Mínimo 6 caracteres"/>
-            <button type="button" class="toggle-password" (click)="togglePassword()">
-              {{ mostrarPassword ? '🙈' : '👁️' }}
-            </button>
-          </div>
+  <input
+    [type]="mostrarPassword ? 'text' : 'password'"
+    name="password"
+    [(ngModel)]="datos.password"
+    [class.input-error]="errores.password"
+    placeholder="Mínimo 6 caracteres"/>
+  <button type="button" class="toggle-password" (click)="togglePassword()" [title]="mostrarPassword ? 'Ocultar contraseña' : 'Ver contraseña'">
+    <svg *ngIf="mostrarPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+      <line x1="1" y1="1" x2="23" y2="23"/>
+    </svg>
+    <svg *ngIf="!mostrarPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  </button>
+</div>
           <span class="field-error" *ngIf="errores.password">{{ errores.password }}</span>
         </div>
 
         <div class="form-group">
           <label>Confirmar contraseña <span class="required">*</span></label>
           <div class="password-wrapper">
-            <input
-              [type]="mostrarConfirmarPassword ? 'text' : 'password'"
-              name="confirmarPassword"
-              [(ngModel)]="datos.confirmarPassword"
-              [class.input-error]="errores.confirmarPassword"
-              placeholder="Repite tu contraseña"/>
-            <button type="button" class="toggle-password" (click)="toggleConfirmarPassword()">
-              {{ mostrarConfirmarPassword ? '🙈' : '👁️' }}
-            </button>
-          </div>
+  <input
+    [type]="mostrarConfirmarPassword ? 'text' : 'password'"
+    name="confirmarPassword"
+    [(ngModel)]="datos.confirmarPassword"
+    [class.input-error]="errores.confirmarPassword"
+    placeholder="Repite tu contraseña"/>
+  <button type="button" class="toggle-password" (click)="toggleConfirmarPassword()" [title]="mostrarConfirmarPassword ? 'Ocultar contraseña' : 'Ver contraseña'">
+    <svg *ngIf="mostrarConfirmarPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+      <line x1="1" y1="1" x2="23" y2="23"/>
+    </svg>
+    <svg *ngIf="!mostrarConfirmarPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  </button>
+</div>
           <span class="field-error" *ngIf="errores.confirmarPassword">{{ errores.confirmarPassword }}</span>
         </div>
 
