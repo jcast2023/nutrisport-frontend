@@ -193,12 +193,19 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.1rem;
-  color: #64748b;
   padding: 0;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
 }
 
 .toggle-password:hover {
   color: #14b8a6;
+}
+
+.toggle-password svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
 }
