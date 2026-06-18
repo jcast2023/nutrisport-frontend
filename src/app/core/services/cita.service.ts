@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface CrearCitaDto {
   fechaHora: string;
@@ -19,7 +20,7 @@ export interface CitaResponse {
 @Injectable({ providedIn: 'root' })
 export class CitaService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7234/api/Citas';
+  private apiUrl = `${environment.apiUrl}/Citas`;
 
   obtenerMisCitas(): Observable<CitaResponse[]> {
     return this.http.get<CitaResponse[]>(`${this.apiUrl}/MisCitas`);

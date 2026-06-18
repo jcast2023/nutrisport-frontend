@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { environment } from '../../../environments/environment';
 export interface Alimento {
   id: number;
   nombre: string;
@@ -14,7 +14,7 @@ export interface Alimento {
 @Injectable({ providedIn: 'root' })
 export class AlimentoService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7234/api/Alimentos';
+ private apiUrl = `${environment.apiUrl}/Alimentos`;
 
   obtenerTodos(): Observable<Alimento[]> {
     return this.http.get<Alimento[]>(this.apiUrl);
