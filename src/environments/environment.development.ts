@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:7214/api'
+  apiUrl: 'https://nutrisport-backend-c513.onrender.com/api'
 };
