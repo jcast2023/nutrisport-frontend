@@ -9,7 +9,7 @@ import { ListaCitasComponent } from './lista-citas/lista-citas';
 import { BaseChartDirective } from 'ng2-charts';
 import Swal from 'sweetalert2';
 import { MedicionesComponent } from './mediciones/medicion';
-
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -86,7 +86,7 @@ get subtituloSeccion(): string {
     const token = localStorage.getItem('token_macros');
     if (!token) return;
     this.http.get(
-      'https://localhost:7234/api/Objetivos/MiObjetivo',
+      `${environment.apiUrl}/Objetivos/MiObjetivo`,
       { headers: { Authorization: `Bearer ${token}` } }
     ).subscribe({
       next: (data) => this.objetivo = data,

@@ -23,10 +23,12 @@
       <form (ngSubmit)="registrar()">
         <div class="form-row">
           <div class="form-group">
-            <label>Nombre</label>
+            <label>Nombre <span class="required">*</span></label>
             <input type="text" name="nombre"
               [(ngModel)]="datos.nombre"
-              required placeholder="Tu nombre"/>
+              [class.input-error]="errores.nombre"
+              placeholder="Tu nombre"/>
+            <span class="field-error" *ngIf="errores.nombre">{{ errores.nombre }}</span>
           </div>
           <div class="form-group">
             <label>Apellido</label>
@@ -37,17 +39,44 @@
         </div>
 
         <div class="form-group">
-          <label>Correo electrónico</label>
+          <label>Correo electrónico <span class="required">*</span></label>
           <input type="email" name="email"
             [(ngModel)]="datos.email"
-            required placeholder="ejemplo@correo.com"/>
+            [class.input-error]="errores.email"
+            placeholder="ejemplo@correo.com"/>
+          <span class="field-error" *ngIf="errores.email">{{ errores.email }}</span>
         </div>
 
         <div class="form-group">
-          <label>Contraseña</label>
-          <input type="password" name="password"
-            [(ngModel)]="datos.password"
-            required placeholder="Mínimo 6 caracteres"/>
+          <label>Contraseña <span class="required">*</span></label>
+          <div class="password-wrapper">
+            <input
+              [type]="mostrarPassword ? 'text' : 'password'"
+              name="password"
+              [(ngModel)]="datos.password"
+              [class.input-error]="errores.password"
+              placeholder="Mínimo 6 caracteres"/>
+            <button type="button" class="toggle-password" (click)="togglePassword()">
+              {{ mostrarPassword ? '🙈' : '👁️' }}
+            </button>
+          </div>
+          <span class="field-error" *ngIf="errores.password">{{ errores.password }}</span>
+        </div>
+
+        <div class="form-group">
+          <label>Confirmar contraseña <span class="required">*</span></label>
+          <div class="password-wrapper">
+            <input
+              [type]="mostrarConfirmarPassword ? 'text' : 'password'"
+              name="confirmarPassword"
+              [(ngModel)]="datos.confirmarPassword"
+              [class.input-error]="errores.confirmarPassword"
+              placeholder="Repite tu contraseña"/>
+            <button type="button" class="toggle-password" (click)="toggleConfirmarPassword()">
+              {{ mostrarConfirmarPassword ? '🙈' : '👁️' }}
+            </button>
+          </div>
+          <span class="field-error" *ngIf="errores.confirmarPassword">{{ errores.confirmarPassword }}</span>
         </div>
 
         <button type="submit" class="login-btn" [disabled]="cargando">

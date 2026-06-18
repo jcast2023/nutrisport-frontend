@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import Swal from 'sweetalert2';
-
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-mediciones',
   standalone: true,
@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class MedicionesComponent implements OnInit {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7234/api/Mediciones';
+  private apiUrl = `${environment.apiUrl}/Mediciones`;
 
   historial: any[] = [];
   mostrandoFormulario = false;

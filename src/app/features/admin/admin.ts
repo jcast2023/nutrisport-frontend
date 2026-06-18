@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/services/auth';
 import Swal from 'sweetalert2';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin',
@@ -15,7 +16,7 @@ import Swal from 'sweetalert2';
 export class Admin implements OnInit {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
-  private apiUrl = 'https://localhost:7234/api';
+  private apiUrl = environment.apiUrl;
 
   // ── Estado general ──
   seccionActiva = 'citas';

@@ -20,25 +20,61 @@ export class Login {
   credenciales = { email: '', password: '' };
   errorMensaje: string = '';
   cargando: boolean = false;
+  mostrarPassword: boolean = false;
+
+  errores = {
+    email: '',
+    password: ''
+  };
+
+  validar(): boolean {
+    this.errores = { email: '', password: '' };
+    let valido = true;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!this.credenciales.email.trim()) {
+      this.errores.email = 'El correo es obligatorio.';
+      valido = false;
+    } else if (!emailRegex.test(this.credenciales.email)) {
+      this.errores.email = 'Ingresa un correo válido.';
+      valido = false;
+    }
+
+    if (!this.credenciales.password) {
+      this.errores.password = 'La contraseña es obligatoria.';
+      valido = false;
+    } else if (this.credenciales.password.length < 6) {
+      this.errores.password = 'La contraseña debe tener al menos 6 caracteres.';
+      valido = false;
+    }
+
+    return valido;
+  }
+
+  togglePassword(): void {
+    this.mostrarPassword = !this.mostrarPassword;
+  }
 
   ejecutarLogin(): void {
+    if (!this.validar()) return;
+
     this.cargando = true;
     this.errorMensaje = '';
 
     this.authService.login(this.credenciales).subscribe({
       next: (res: any) => {
-  localStorage.setItem('token_macros', res.token);
-  const esAdmin = this.authService.esAdmin();
-  Swal.fire({
-    title: '¡Bienvenido!',
-    text: esAdmin ? 'Cargando panel de administración...' : 'Cargando tu dashboard nutricional...',
-    icon: 'success',
-    timer: 2000,
-    showConfirmButton: false
-  }).then(() => {
-    this.router.navigate([esAdmin ? '/admin' : '/dashboard']);
-  });
-},
+        localStorage.setItem('token_macros', res.token);
+        const esAdmin = this.authService.esAdmin();
+        Swal.fire({
+          title: '¡Bienvenido!',
+          text: esAdmin ? 'Cargando panel de administración...' : 'Cargando tu dashboard nutricional...',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          this.router.navigate([esAdmin ? '/admin' : '/dashboard']);
+        });
+      },
       error: () => {
         this.errorMensaje = 'Correo o contraseña incorrectos.';
         this.cargando = false;

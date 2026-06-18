@@ -5,6 +5,7 @@ import { RouterLink, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/services/auth';
 import Swal from 'sweetalert2';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-registro',
@@ -18,27 +19,80 @@ export class Registro {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  datos = { nombre: '', apellido: '', email: '', password: '' };
+  datos = { nombre: '', apellido: '', email: '', password: '', confirmarPassword: '' };
   errorMensaje = '';
   cargando = false;
+  mostrarPassword = false;
+  mostrarConfirmarPassword = false;
+
+  errores = {
+    nombre: '',
+    email: '',
+    password: '',
+    confirmarPassword: ''
+  };
+
+  validar(): boolean {
+    this.errores = { nombre: '', email: '', password: '', confirmarPassword: '' };
+    let valido = true;
+
+    if (!this.datos.nombre.trim()) {
+      this.errores.nombre = 'El nombre es obligatorio.';
+      valido = false;
+    } else if (this.datos.nombre.trim().length < 2) {
+      this.errores.nombre = 'El nombre debe tener al menos 2 caracteres.';
+      valido = false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!this.datos.email.trim()) {
+      this.errores.email = 'El correo es obligatorio.';
+      valido = false;
+    } else if (!emailRegex.test(this.datos.email)) {
+      this.errores.email = 'Ingresa un correo válido.';
+      valido = false;
+    }
+
+    if (!this.datos.password) {
+      this.errores.password = 'La contraseña es obligatoria.';
+      valido = false;
+    } else if (this.datos.password.length < 6) {
+      this.errores.password = 'La contraseña debe tener al menos 6 caracteres.';
+      valido = false;
+    }
+
+    if (!this.datos.confirmarPassword) {
+      this.errores.confirmarPassword = 'Confirma tu contraseña.';
+      valido = false;
+    } else if (this.datos.password !== this.datos.confirmarPassword) {
+      this.errores.confirmarPassword = 'Las contraseñas no coinciden.';
+      valido = false;
+    }
+
+    return valido;
+  }
+
+  togglePassword(): void {
+    this.mostrarPassword = !this.mostrarPassword;
+  }
+
+  toggleConfirmarPassword(): void {
+    this.mostrarConfirmarPassword = !this.mostrarConfirmarPassword;
+  }
 
   registrar(): void {
-    if (!this.datos.nombre || !this.datos.email || !this.datos.password) {
-      this.errorMensaje = 'Completa todos los campos obligatorios.';
-      return;
-    }
+    if (!this.validar()) return;
 
     this.cargando = true;
     this.errorMensaje = '';
 
-    this.http.post('https://localhost:7234/api/Auth/register', {
+    this.http.post(`${environment.apiUrl}/Auth/register`, {
       nombre: this.datos.nombre,
       apellido: this.datos.apellido,
       email: this.datos.email,
       password: this.datos.password
     }).subscribe({
       next: () => {
-        // Registro exitoso — login automático
         this.authService.login({
           email: this.datos.email,
           password: this.datos.password
