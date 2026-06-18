@@ -63,18 +63,21 @@ export class Login {
 
     this.authService.login(this.credenciales).subscribe({
       next: (res: any) => {
-        localStorage.setItem('token_macros', res.token);
-        const esAdmin = this.authService.esAdmin();
-        Swal.fire({
-          title: '¡Bienvenido!',
-          text: esAdmin ? 'Cargando panel de administración...' : 'Cargando tu dashboard nutricional...',
-          icon: 'success',
-          timer: 2000,
-          showConfirmButton: false
-        }).then(() => {
-          this.router.navigate([esAdmin ? '/admin' : '/dashboard']);
-        });
-      },
+  localStorage.setItem('token_macros', res.token);
+
+  const esAdmin = res.usuario?.rol === 'Administrador' || res.usuario?.Rol === 'Administrador';
+
+  Swal.fire({
+    title: '¡Bienvenido!',
+    text: esAdmin ? 'Cargando panel de administración...' : 'Cargando tu dashboard nutricional...',
+    icon: 'success',
+    timer: 2000,
+    showConfirmButton: false
+  }).then(() => {
+    this.cargando = false; // 👈 Apagamos el spinner justo antes de navegar
+    this.router.navigate([esAdmin ? '/admin' : '/dashboard']);
+  });
+},
       error: () => {
         this.errorMensaje = 'Correo o contraseña incorrectos.';
         this.cargando = false;
