@@ -102,14 +102,21 @@ export class Dashboard implements OnInit {
     const token = localStorage.getItem('token_macros');
     if (!token) return;
 
+    // ── CAMBIO: Usar "MiHistorial" en lugar de "MisMediciones" ──
     this.http.get<any[]>(
-      `${environment.apiUrl}/Mediciones/MisMediciones`,
-      { headers: { Authorization: `Bearer ${token}` } }
+        `${environment.apiUrl}/Mediciones/MiHistorial`,  // ← AQUÍ ESTABA EL ERROR
+        { headers: { Authorization: `Bearer ${token}` } }
     ).subscribe({
-      next: (data) => this.medicionesPaciente = data,
-      error: () => this.medicionesPaciente = []
+        next: (data) => {
+            this.medicionesPaciente = data;
+            console.log('Mediciones cargadas:', data);
+        },
+        error: (err) => {
+            console.error('Error al cargar mediciones:', err);
+            this.medicionesPaciente = [];
+        }
     });
-  }
+}
 
   // ── NUEVO: Obtener color del IMC ──
   obtenerColorIMC(imc: number): string {
