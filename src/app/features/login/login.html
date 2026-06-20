@@ -56,6 +56,10 @@
             </button>
           </div>
           <span class="field-error" *ngIf="errores.password">{{ errores.password }}</span>
+
+          <div class="text-end mt-1">
+            <a routerLink="/forgot-password" class="forgot-password-link">¿Olvidaste tu contraseña?</a>
+          </div>
         </div>
 
         <button type="submit" class="login-btn" [disabled]="cargando">

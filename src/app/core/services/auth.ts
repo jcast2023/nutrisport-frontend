@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
- private apiUrl = `${environment.apiUrl}/Auth`;
+  private apiUrl = `${environment.apiUrl}/Auth`;
 
   login(credenciales: { email: string; password: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credenciales).pipe(
@@ -65,4 +65,23 @@ export class AuthService {
     localStorage.removeItem('token_macros');
     this.router.navigate(['/home']);
   }
+
+  // ==========================================
+// NUEVOS MÉTODOS DE RECUPERACIÓN DE CUENTA (CORREGIDOS)
+// ==========================================
+
+// 1. Envía la solicitud mapeando exactamente el DTO de .NET (Email con 'E' mayúscula)
+forgotPassword(email: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/forgot-password`, {
+    Email: email
+  });
+}
+
+// 2. Envía el token y clave mapeando el DTO de .NET (Token y NuevaPassword con Mayúsculas)
+resetPassword(token: string, nuevaPassword: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/reset-password`, {
+    Token: token,
+    NuevaPassword: nuevaPassword
+  });
+}
 }

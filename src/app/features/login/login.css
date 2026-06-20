@@ -209,3 +209,15 @@
   height: 20px;
   stroke: currentColor;
 }
+.forgot-password-link {
+  color: #a0aec0; /* Un gris claro suave para que sea discreto */
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-password-link:hover {
+  color: #2dd4bf; /* Cambia al turquesa brillante de tu botón Ingresar al pasar el mouse */
+  text-decoration: underline;
+}
+
