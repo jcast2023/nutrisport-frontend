@@ -1,30 +1,30 @@
 <div class="dash-wrapper">
   <aside class="sidebar">
-  <div class="sidebar-brand">
-    <span class="logo-letters">VS</span>
-    <span class="sidebar-title">NutriPro</span>
-  </div>
-  <nav class="sidebar-nav">
-    <a class="sidebar-link" [class.active]="seccion==='resumen'" (click)="seccion='resumen'">
-      <i class="ti ti-layout-dashboard"></i> <span>Resumen</span>
-    </a>
-    <a class="sidebar-link" [class.active]="seccion==='macros'" (click)="seccion='macros'">
-      <i class="ti ti-salad"></i> <span>Mis macros</span>
-    </a>
-    <a class="sidebar-link" [class.active]="seccion==='citas'" (click)="seccion='citas'">
-      <i class="ti ti-calendar"></i> <span>Mis citas</span>
-    </a>
-    <a class="sidebar-link" [class.active]="seccion==='objetivo'" (click)="seccion='objetivo'">
-      <i class="ti ti-target"></i> <span>Mi objetivo</span>
-    </a>
-    <a class="sidebar-link" [class.active]="seccion==='mediciones'" (click)="seccion='mediciones'">
-      <i class="ti ti-ruler-measure"></i> <span>Mi ficha</span>
-    </a>
-  </nav>
-  <button class="sidebar-logout" (click)="cerrarSesion()">
-    <i class="ti ti-logout"></i> <span>Cerrar sesión</span>
-  </button>
-</aside>
+    <div class="sidebar-brand">
+      <span class="logo-letters">VS</span>
+      <span class="sidebar-title">NutriPro</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" [class.active]="seccion==='resumen'" (click)="seccion='resumen'">
+        <i class="ti ti-layout-dashboard"></i> <span>Resumen</span>
+      </a>
+      <a class="sidebar-link" [class.active]="seccion==='macros'" (click)="seccion='macros'">
+        <i class="ti ti-salad"></i> <span>Mis macros</span>
+      </a>
+      <a class="sidebar-link" [class.active]="seccion==='citas'" (click)="seccion='citas'">
+        <i class="ti ti-calendar"></i> <span>Mis citas</span>
+      </a>
+      <a class="sidebar-link" [class.active]="seccion==='objetivo'" (click)="seccion='objetivo'">
+        <i class="ti ti-target"></i> <span>Mi objetivo</span>
+      </a>
+      <a class="sidebar-link" [class.active]="seccion==='mediciones'" (click)="seccion='mediciones'">
+        <i class="ti ti-ruler-measure"></i> <span>Mi ficha</span>
+      </a>
+    </nav>
+    <button class="sidebar-logout" (click)="cerrarSesion()">
+      <i class="ti ti-logout"></i> <span>Cerrar sesión</span>
+    </button>
+  </aside>
 
   <main class="dash-main">
     <div class="dash-header">
@@ -88,7 +88,7 @@
           <i class="ti ti-calendar-plus"></i> Agendar cita
         </button>
         <button class="quick-btn quick-btn--outline" (click)="seccion='mediciones'">
-          <i class="ti ti-ruler-measure"></i> Registrar medición
+          <i class="ti ti-ruler-measure"></i> Ver mi ficha
         </button>
       </div>
     </ng-container>
@@ -186,11 +186,89 @@
       </div>
     </ng-container>
 
-    <!-- MI FICHA CLÍNICA -->
+    <!-- ─── MI FICHA CLÍNICA (SOLO LECTURA) ─── -->
     <ng-container *ngIf="seccion==='mediciones'">
       <div class="dash-card">
-        <h2 class="card-title">Ficha clínica</h2>
-        <app-mediciones></app-mediciones>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+          <h2 class="card-title" style="margin-bottom:0">Mi ficha clínica</h2>
+          <span style="background:#e2e8f0;color:#475569;padding:0.25rem 0.75rem;border-radius:20px;font-size:0.7rem;font-weight:600;">
+            📋 Solo consulta
+          </span>
+        </div>
+        <p style="color:#94a3b8;font-size:0.85rem;margin-top:-0.25rem;margin-bottom:1.25rem">
+          Tu historial de mediciones registradas por tu nutricionista.
+        </p>
+
+        <div *ngIf="medicionesPaciente.length === 0" class="empty-state">
+          <i class="ti ti-ruler-measure"></i>
+          <p>Tu nutricionista aún no ha registrado mediciones en tu ficha.</p>
+          <button class="quick-btn" style="margin-top:1rem" (click)="seccion='citas'">
+            <i class="ti ti-calendar-plus"></i> Agenda tu primera consulta
+          </button>
+        </div>
+
+        <div *ngIf="medicionesPaciente.length > 0">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0.75rem;background:#f8fafc;border-radius:12px;padding:1.25rem;border:1px solid #e2e8f0">
+            <div>
+              <div style="font-size:0.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Última medición</div>
+              <div style="font-weight:700;font-size:1rem;color:#0f172a">{{ medicionesPaciente[0].fecha | date:'dd/MM/yyyy' }}</div>
+            </div>
+            <div>
+              <div style="font-size:0.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Peso</div>
+              <div style="font-weight:700;font-size:1rem;color:#0f172a">{{ medicionesPaciente[0].peso }} kg</div>
+            </div>
+            <div>
+              <div style="font-size:0.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Talla</div>
+              <div style="font-weight:700;font-size:1rem;color:#0f172a">{{ medicionesPaciente[0].talla }} cm</div>
+            </div>
+            <div>
+              <div style="font-size:0.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">IMC</div>
+              <div style="font-weight:700;font-size:1rem;" [style.color]="obtenerColorIMC(medicionesPaciente[0].imc)">
+                {{ medicionesPaciente[0].imc | number:'1.1-1' }}
+              </div>
+            </div>
+            <div *ngIf="medicionesPaciente[0].cinturasCm">
+              <div style="font-size:0.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Cintura</div>
+              <div style="font-weight:700;font-size:1rem;color:#0f172a">{{ medicionesPaciente[0].cinturasCm }} cm</div>
+            </div>
+            <div *ngIf="medicionesPaciente[0].porcentajeGrasa">
+              <div style="font-size:0.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">% Grasa</div>
+              <div style="font-weight:700;font-size:1rem;color:#0f172a">{{ medicionesPaciente[0].porcentajeGrasa }}%</div>
+            </div>
+            <div *ngIf="medicionesPaciente[0].masaMuscular">
+              <div style="font-size:0.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;font-weight:600">Masa muscular</div>
+              <div style="font-weight:700;font-size:1rem;color:#0f172a">{{ medicionesPaciente[0].masaMuscular }} kg</div>
+            </div>
+          </div>
+
+          <div style="margin-top:1.5rem">
+            <h4 style="font-size:0.85rem;font-weight:700;color:#64748b;margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.5px">
+              Historial de mediciones
+            </h4>
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);padding:0.5rem 0.75rem;background:#f1f5f9;border-radius:8px;font-weight:600;font-size:0.75rem;color:#475569;text-transform:uppercase;letter-spacing:0.3px">
+              <span>Fecha</span>
+              <span>Peso</span>
+              <span>IMC</span>
+              <span>Cintura</span>
+              <span>% Grasa</span>
+              <span>Músculo</span>
+            </div>
+            <div *ngFor="let m of medicionesPaciente" style="display:grid;grid-template-columns:repeat(6,1fr);padding:0.5rem 0.75rem;border-bottom:1px solid #f1f5f9;font-size:0.85rem;align-items:center">
+              <span style="color:#64748b;font-size:0.82rem">{{ m.fecha | date:'dd/MM/yyyy' }}</span>
+              <span><strong>{{ m.peso }}</strong> kg</span>
+              <span>
+                <span style="padding:0.1rem 0.6rem;border-radius:20px;font-size:0.75rem;font-weight:600"
+                  [style.background]="m.imc < 25 ? '#d1fae5' : m.imc < 30 ? '#fef3c7' : '#fee2e2'"
+                  [style.color]="m.imc < 25 ? '#065f46' : m.imc < 30 ? '#92400e' : '#991b1b'">
+                  {{ m.imc | number:'1.1-1' }}
+                </span>
+              </span>
+              <span>{{ m.cinturasCm ?? '—' }} cm</span>
+              <span>{{ m.porcentajeGrasa ?? '—' }}%</span>
+              <span>{{ m.masaMuscular ?? '—' }} kg</span>
+            </div>
+          </div>
+        </div>
       </div>
     </ng-container>
 

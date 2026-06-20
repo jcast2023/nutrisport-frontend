@@ -219,132 +219,134 @@
         </div>
       </div>
     </div>
+
     <!-- MODAL FICHA CLÍNICA -->
-<div class="modal-overlay" *ngIf="mostrandoFicha" (click)="mostrandoFicha=false">
-  <div class="modal-box modal-box--wide" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h3>Ficha clínica — {{ pacienteFicha?.nombre }} {{ pacienteFicha?.apellido }}</h3>
-      <button class="modal-close" (click)="mostrandoFicha=false">
-        <i class="ti ti-x"></i>
-      </button>
+    <div class="modal-overlay" *ngIf="mostrandoFicha" (click)="mostrandoFicha=false">
+      <div class="modal-box modal-box--wide" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Ficha clínica — {{ pacienteFicha?.nombre }} {{ pacienteFicha?.apellido }}</h3>
+          <button class="modal-close" (click)="mostrandoFicha=false">
+            <i class="ti ti-x"></i>
+          </button>
+        </div>
+
+        <div *ngIf="medicionesPaciente.length === 0" class="empty-state">
+          <i class="ti ti-ruler-measure"></i>
+          <p>Este paciente aún no tiene mediciones registradas.</p>
+        </div>
+
+        <div *ngIf="medicionesPaciente.length > 0">
+          <!-- Última medición destacada -->
+          <div class="ficha-resumen">
+            <div class="ficha-stat">
+              <span class="ficha-lbl">Peso actual</span>
+              <span class="ficha-val">{{ medicionesPaciente[0].peso }} kg</span>
+            </div>
+            <div class="ficha-stat">
+              <span class="ficha-lbl">Talla</span>
+              <span class="ficha-val">{{ medicionesPaciente[0].talla }} cm</span>
+            </div>
+            <div class="ficha-stat">
+              <span class="ficha-lbl">IMC</span>
+              <span class="ficha-val"
+                [style.color]="medicionesPaciente[0].imc < 25 ? '#14b8a6' : medicionesPaciente[0].imc < 30 ? '#f59e0b' : '#ef4444'">
+                {{ medicionesPaciente[0].imc }}
+              </span>
+            </div>
+            <div class="ficha-stat" *ngIf="medicionesPaciente[0].cinturasCm">
+              <span class="ficha-lbl">Cintura</span>
+              <span class="ficha-val">{{ medicionesPaciente[0].cinturasCm }} cm</span>
+            </div>
+            <div class="ficha-stat" *ngIf="medicionesPaciente[0].porcentajeGrasa">
+              <span class="ficha-lbl">% Grasa</span>
+              <span class="ficha-val">{{ medicionesPaciente[0].porcentajeGrasa }}%</span>
+            </div>
+            <div class="ficha-stat" *ngIf="medicionesPaciente[0].masaMuscular">
+              <span class="ficha-lbl">Masa muscular</span>
+              <span class="ficha-val">{{ medicionesPaciente[0].masaMuscular }} kg</span>
+            </div>
+          </div>
+
+          <!-- Historial -->
+          <h4 style="font-size:0.85rem;font-weight:700;color:#64748b;margin:1.25rem 0 0.75rem;text-transform:uppercase;letter-spacing:0.5px">
+            Historial de mediciones
+          </h4>
+          <div class="ficha-table">
+            <div class="ficha-table-header">
+              <span>Fecha</span>
+              <span>Peso</span>
+              <span>IMC</span>
+              <span>Cintura</span>
+              <span>% Grasa</span>
+              <span>Músculo</span>
+            </div>
+            <div class="ficha-table-row" *ngFor="let m of medicionesPaciente">
+              <span style="color:#64748b;font-size:0.82rem">{{ m.fecha | date:'dd/MM/yyyy' }}</span>
+              <span><strong>{{ m.peso }}</strong> kg</span>
+              <span>
+                <span class="imc-badge"
+                  [style.background]="m.imc < 25 ? '#d1fae5' : m.imc < 30 ? '#fef3c7' : '#fee2e2'"
+                  [style.color]="m.imc < 25 ? '#065f46' : m.imc < 30 ? '#92400e' : '#991b1b'">
+                  {{ m.imc }}
+                </span>
+              </span>
+              <span>{{ m.cinturasCm ?? '—' }} cm</span>
+              <span>{{ m.porcentajeGrasa ?? '—' }}%</span>
+              <span>{{ m.masaMuscular ?? '—' }} kg</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div *ngIf="medicionesPaciente.length === 0" class="empty-state">
-      <i class="ti ti-ruler-measure"></i>
-      <p>Este paciente aún no tiene mediciones registradas.</p>
-    </div>
-
-    <div *ngIf="medicionesPaciente.length > 0">
-      <!-- Última medición destacada -->
-      <div class="ficha-resumen">
-        <div class="ficha-stat">
-          <span class="ficha-lbl">Peso actual</span>
-          <span class="ficha-val">{{ medicionesPaciente[0].peso }} kg</span>
+    <!-- MODAL REGISTRAR MEDICIÓN -->
+    <div class="modal-overlay" *ngIf="mostrandoFormMedicion" (click)="mostrandoFormMedicion=false">
+      <div class="modal-box modal-box--wide" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Registrar medición — {{ pacienteMedicion?.nombre }} {{ pacienteMedicion?.apellido }}</h3>
+          <button class="modal-close" (click)="mostrandoFormMedicion=false">
+            <i class="ti ti-x"></i>
+          </button>
         </div>
-        <div class="ficha-stat">
-          <span class="ficha-lbl">Talla</span>
-          <span class="ficha-val">{{ medicionesPaciente[0].talla }} cm</span>
-        </div>
-        <div class="ficha-stat">
-          <span class="ficha-lbl">IMC</span>
-          <span class="ficha-val"
-            [style.color]="medicionesPaciente[0].imc < 25 ? '#14b8a6' : medicionesPaciente[0].imc < 30 ? '#f59e0b' : '#ef4444'">
-            {{ medicionesPaciente[0].imc }}
-          </span>
-        </div>
-        <div class="ficha-stat" *ngIf="medicionesPaciente[0].cinturasCm">
-          <span class="ficha-lbl">Cintura</span>
-          <span class="ficha-val">{{ medicionesPaciente[0].cinturasCm }} cm</span>
-        </div>
-        <div class="ficha-stat" *ngIf="medicionesPaciente[0].porcentajeGrasa">
-          <span class="ficha-lbl">% Grasa</span>
-          <span class="ficha-val">{{ medicionesPaciente[0].porcentajeGrasa }}%</span>
-        </div>
-        <div class="ficha-stat" *ngIf="medicionesPaciente[0].masaMuscular">
-          <span class="ficha-lbl">Masa muscular</span>
-          <span class="ficha-val">{{ medicionesPaciente[0].masaMuscular }} kg</span>
-        </div>
-      </div>
-
-      <!-- Historial -->
-      <h4 style="font-size:0.85rem;font-weight:700;color:#64748b;margin:1.25rem 0 0.75rem;text-transform:uppercase;letter-spacing:0.5px">
-        Historial de mediciones
-      </h4>
-      <div class="ficha-table">
-        <div class="ficha-table-header">
-          <span>Fecha</span>
-          <span>Peso</span>
-          <span>IMC</span>
-          <span>Cintura</span>
-          <span>% Grasa</span>
-          <span>Músculo</span>
-        </div>
-        <div class="ficha-table-row" *ngFor="let m of medicionesPaciente">
-          <span style="color:#64748b;font-size:0.82rem">{{ m.fecha | date:'dd/MM/yyyy' }}</span>
-          <span><strong>{{ m.peso }}</strong> kg</span>
-          <span>
-            <span class="imc-badge"
-              [style.background]="m.imc < 25 ? '#d1fae5' : m.imc < 30 ? '#fef3c7' : '#fee2e2'"
-              [style.color]="m.imc < 25 ? '#065f46' : m.imc < 30 ? '#92400e' : '#991b1b'">
-              {{ m.imc }}
-            </span>
-          </span>
-          <span>{{ m.cinturasCm ?? '—' }} cm</span>
-          <span>{{ m.porcentajeGrasa ?? '—' }}%</span>
-          <span>{{ m.masaMuscular ?? '—' }} kg</span>
+        <p class="modal-sub">Valores tomados durante la consulta {{ pacienteMedicion?.nombre }}</p>
+        <div class="modal-form">
+          <div class="medicion-form-grid">
+            <div class="form-group">
+              <label>Peso (kg) *</label>
+              <input type="number" [(ngModel)]="medicionForm.peso" class="form-input" placeholder="Ej: 75.5" step="0.1"/>
+            </div>
+            <div class="form-group">
+              <label>Talla (cm) *</label>
+              <input type="number" [(ngModel)]="medicionForm.talla" class="form-input" placeholder="Ej: 170" step="0.1"/>
+            </div>
+            <div class="form-group">
+              <label>Cintura (cm)</label>
+              <input type="number" [(ngModel)]="medicionForm.cinturasCm" class="form-input" placeholder="Ej: 80" step="0.1"/>
+            </div>
+            <div class="form-group">
+              <label>Cadera (cm)</label>
+              <input type="number" [(ngModel)]="medicionForm.caderaCm" class="form-input" placeholder="Ej: 95" step="0.1"/>
+            </div>
+            <div class="form-group">
+              <label>% Grasa corporal</label>
+              <input type="number" [(ngModel)]="medicionForm.porcentajeGrasa" class="form-input" placeholder="Ej: 22.5" step="0.1"/>
+            </div>
+            <div class="form-group">
+              <label>Masa muscular (kg)</label>
+              <input type="number" [(ngModel)]="medicionForm.masaMuscular" class="form-input" placeholder="Ej: 35.2" step="0.1"/>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:0.75rem">
+            <label>Notas clínicas</label>
+            <textarea [(ngModel)]="medicionForm.notas" class="form-input"
+              style="min-height:70px;resize:vertical"
+              placeholder="Observaciones de la consulta..."></textarea>
+          </div>
+          <button class="btn-guardar" (click)="registrarMedicionPaciente()">
+            <i class="ti ti-check"></i> Guardar medición
+          </button>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<!-- MODAL REGISTRAR MEDICIÓN -->
-<div class="modal-overlay" *ngIf="mostrandoFormMedicion" (click)="mostrandoFormMedicion=false">
-  <div class="modal-box modal-box--wide" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <h3>Registrar medición — {{ pacienteMedicion?.nombre }} {{ pacienteMedicion?.apellido }}</h3>
-      <button class="modal-close" (click)="mostrandoFormMedicion=false">
-        <i class="ti ti-x"></i>
-      </button>
-    </div>
-    <p class="modal-sub">Valores tomados durante la consulta {{ pacienteMedicion?.nombre }}</p>
-    <div class="modal-form">
-      <div class="medicion-form-grid">
-        <div class="form-group">
-          <label>Peso (kg) *</label>
-          <input type="number" [(ngModel)]="medicionForm.peso" class="form-input" placeholder="Ej: 75.5" step="0.1"/>
-        </div>
-        <div class="form-group">
-          <label>Talla (cm) *</label>
-          <input type="number" [(ngModel)]="medicionForm.talla" class="form-input" placeholder="Ej: 170" step="0.1"/>
-        </div>
-        <div class="form-group">
-          <label>Cintura (cm)</label>
-          <input type="number" [(ngModel)]="medicionForm.cinturasCm" class="form-input" placeholder="Ej: 80" step="0.1"/>
-        </div>
-        <div class="form-group">
-          <label>Cadera (cm)</label>
-          <input type="number" [(ngModel)]="medicionForm.caderaCm" class="form-input" placeholder="Ej: 95" step="0.1"/>
-        </div>
-        <div class="form-group">
-          <label>% Grasa corporal</label>
-          <input type="number" [(ngModel)]="medicionForm.porcentajeGrasa" class="form-input" placeholder="Ej: 22.5" step="0.1"/>
-        </div>
-        <div class="form-group">
-          <label>Masa muscular (kg)</label>
-          <input type="number" [(ngModel)]="medicionForm.masaMuscular" class="form-input" placeholder="Ej: 35.2" step="0.1"/>
-        </div>
-      </div>
-      <div class="form-group" style="margin-top:0.75rem">
-        <label>Notas clínicas</label>
-        <textarea [(ngModel)]="medicionForm.notas" class="form-input"
-          style="min-height:70px;resize:vertical"
-          placeholder="Observaciones de la consulta..."></textarea>
-      </div>
-      <button class="btn-guardar" (click)="registrarMedicionPaciente()">
-        <i class="ti ti-check"></i> Guardar medición
-      </button>
-    </div>
-  </div>
-</div>
   </main>
 </div>

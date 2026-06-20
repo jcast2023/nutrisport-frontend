@@ -55,6 +55,19 @@ export class Admin implements OnInit {
   pacienteFicha: any = null;
   medicionesPaciente: any[] = [];
 
+  // ── Formulario de medición ──
+  mostrandoFormMedicion = false;
+  pacienteMedicion: any = null;
+  medicionForm = {
+    peso: null as number | null,
+    talla: null as number | null,
+    cinturasCm: null as number | null,
+    caderaCm: null as number | null,
+    porcentajeGrasa: null as number | null,
+    masaMuscular: null as number | null,
+    notas: ''
+  };
+
   // ── Getters ──
   get citasPendientes() { return this.citas.filter(c => c.estado === 'Pendiente'); }
   get citasConfirmadas() { return this.citas.filter(c => c.estado === 'Confirmada'); }
@@ -199,50 +212,39 @@ export class Admin implements OnInit {
       error: () => this.medicionesPaciente = []
     });
   }
+
   // ── Registro de medición desde admin ──
-mostrandoFormMedicion = false;
-pacienteMedicion: any = null;
-medicionForm = {
-  peso: null as number | null,
-  talla: null as number | null,
-  cinturasCm: null as number | null,
-  caderaCm: null as number | null,
-  porcentajeGrasa: null as number | null,
-  masaMuscular: null as number | null,
-  notas: ''
-};
-
-abrirFormMedicion(paciente: any) {
-  this.pacienteMedicion = paciente;
-  this.medicionForm = {
-    peso: null, talla: null, cinturasCm: null,
-    caderaCm: null, porcentajeGrasa: null,
-    masaMuscular: null, notas: ''
-  };
-  this.mostrandoFormMedicion = true;
-}
-
-registrarMedicionPaciente() {
-  if (!this.medicionForm.peso || !this.medicionForm.talla) {
-    Swal.fire('Atención', 'Peso y talla son obligatorios.', 'warning');
-    return;
+  abrirFormMedicion(paciente: any) {
+    this.pacienteMedicion = paciente;
+    this.medicionForm = {
+      peso: null, talla: null, cinturasCm: null,
+      caderaCm: null, porcentajeGrasa: null,
+      masaMuscular: null, notas: ''
+    };
+    this.mostrandoFormMedicion = true;
   }
-  this.http.post(
-    `${this.apiUrl}/Mediciones/RegistrarParaPaciente/${this.pacienteMedicion.id}`,
-    this.medicionForm
-  ).subscribe({
-    next: (res: any) => {
-      this.mostrandoFormMedicion = false;
-      Swal.fire({
-        title: '¡Medición registrada!',
-        html: `IMC: <strong>${res.imc}</strong> — <span style="color:#14b8a6">${res.categoriaIMC}</span>`,
-        icon: 'success',
-        confirmButtonColor: '#14b8a6'
-      });
-    },
-    error: () => Swal.fire('Error', 'No se pudo registrar la medición.', 'error')
-  });
-}
+
+  registrarMedicionPaciente() {
+    if (!this.medicionForm.peso || !this.medicionForm.talla) {
+      Swal.fire('Atención', 'Peso y talla son obligatorios.', 'warning');
+      return;
+    }
+    this.http.post(
+      `${this.apiUrl}/Mediciones/RegistrarParaPaciente/${this.pacienteMedicion.id}`,
+      this.medicionForm
+    ).subscribe({
+      next: (res: any) => {
+        this.mostrandoFormMedicion = false;
+        Swal.fire({
+          title: '¡Medición registrada!',
+          html: `IMC: <strong>${res.imc}</strong> — <span style="color:#14b8a6">${res.categoriaIMC}</span>`,
+          icon: 'success',
+          confirmButtonColor: '#14b8a6'
+        });
+      },
+      error: () => Swal.fire('Error', 'No se pudo registrar la medición.', 'error')
+    });
+  }
 
   // ── Auth ──
   cerrarSesion() { this.authService.logout(); }

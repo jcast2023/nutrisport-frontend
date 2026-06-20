@@ -8,14 +8,13 @@ import { CitaFormularioComponent } from './cita/cita-formulario';
 import { ListaCitasComponent } from './lista-citas/lista-citas';
 import { BaseChartDirective } from 'ng2-charts';
 import Swal from 'sweetalert2';
-import { MedicionesComponent } from './mediciones/medicion';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, DecimalPipe, ConsumoFormulario, BaseChartDirective,
-            CitaFormularioComponent, ListaCitasComponent, MedicionesComponent],
+            CitaFormularioComponent, ListaCitasComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -33,6 +32,9 @@ export class Dashboard implements OnInit {
     weekday: 'long', day: 'numeric', month: 'long'
   });
 
+  // ── NUEVO: Mediciones del paciente (solo lectura) ──
+  medicionesPaciente: any[] = [];
+
   chartData: any = {
     labels: ['Proteínas', 'Carbohidratos', 'Grasas'],
     datasets: [{ data: [0, 0, 0],
@@ -46,30 +48,31 @@ export class Dashboard implements OnInit {
   };
 
   get tituloSeccion(): string {
-  const titulos: any = {
-    resumen: 'Mi resumen',
-    macros: 'Mis macros',
-    citas: 'Mis citas',
-    objetivo: 'Mi objetivo',
-    mediciones: 'Mi ficha clínica'
-  };
-  return titulos[this.seccion];
-}
+    const titulos: any = {
+      resumen: 'Mi resumen',
+      macros: 'Mis macros',
+      citas: 'Mis citas',
+      objetivo: 'Mi objetivo',
+      mediciones: 'Mi ficha clínica'
+    };
+    return titulos[this.seccion];
+  }
 
-get subtituloSeccion(): string {
-  const subs: any = {
-    resumen: 'Tu progreso nutricional de hoy',
-    macros: 'Registra y revisa tus consumos del día',
-    citas: 'Agenda y gestiona tus consultas',
-    objetivo: 'Seguimiento de tus metas nutricionales',
-    mediciones: 'Registro y evolución de tus mediciones corporales'
-  };
-  return subs[this.seccion];
-}
+  get subtituloSeccion(): string {
+    const subs: any = {
+      resumen: 'Tu progreso nutricional de hoy',
+      macros: 'Registra y revisa tus consumos del día',
+      citas: 'Agenda y gestiona tus consultas',
+      objetivo: 'Seguimiento de tus metas nutricionales',
+      mediciones: 'Historial de tus mediciones registradas por tu nutricionista'
+    };
+    return subs[this.seccion];
+  }
 
   ngOnInit() {
     this.cargarDatos();
     this.cargarObjetivo();
+    this.cargarMisMediciones(); // ── NUEVO ──
   }
 
   cargarDatos() {
@@ -92,6 +95,28 @@ get subtituloSeccion(): string {
       next: (data) => this.objetivo = data,
       error: () => this.objetivo = null
     });
+  }
+
+  // ── NUEVO: Cargar mediciones del paciente (solo lectura) ──
+  cargarMisMediciones() {
+    const token = localStorage.getItem('token_macros');
+    if (!token) return;
+
+    this.http.get<any[]>(
+      `${environment.apiUrl}/Mediciones/MisMediciones`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    ).subscribe({
+      next: (data) => this.medicionesPaciente = data,
+      error: () => this.medicionesPaciente = []
+    });
+  }
+
+  // ── NUEVO: Obtener color del IMC ──
+  obtenerColorIMC(imc: number): string {
+    if (imc < 18.5) return '#f59e0b';
+    if (imc < 25) return '#14b8a6';
+    if (imc < 30) return '#f59e0b';
+    return '#ef4444';
   }
 
   actualizarGrafico() {
