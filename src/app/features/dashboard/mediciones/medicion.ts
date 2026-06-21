@@ -1,15 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
-import Swal from 'sweetalert2';
 import { environment } from '../../../../environments/environment';
+
 @Component({
   selector: 'app-mediciones',
   standalone: true,
-  imports: [CommonModule, FormsModule, DecimalPipe, BaseChartDirective],
+  imports: [CommonModule, DecimalPipe, BaseChartDirective],
   templateUrl: 'medicion.html',
   styleUrl: 'medicion.css'
 })
@@ -18,18 +17,9 @@ export class MedicionesComponent implements OnInit {
   private apiUrl = `${environment.apiUrl}/Mediciones`;
 
   historial: any[] = [];
-  mostrandoFormulario = false;
   cargando = false;
 
-  form = {
-    peso: null as number | null,
-    talla: null as number | null,
-    cinturasCm: null as number | null,
-    caderaCm: null as number | null,
-    porcentajeGrasa: null as number | null,
-    masaMuscular: null as number | null,
-    notas: ''
-  };
+  // ── ELIMINADO: form, mostrandoFormulario, registrar(), eliminar() ──
 
   // Gráfico peso
   pesoChartData: ChartConfiguration<'line'>['data'] = {
@@ -144,49 +134,5 @@ export class MedicionesComponent implements OnInit {
     if (this.historial.length < 2) return '#94a3b8';
     const diff = this.historial[0].peso - this.historial[1].peso;
     return diff <= 0 ? '#14b8a6' : '#ef4444';
-  }
-
-  registrar() {
-    if (!this.form.peso || !this.form.talla) {
-      Swal.fire('Atención', 'Peso y talla son obligatorios.', 'warning');
-      return;
-    }
-    this.cargando = true;
-    this.http.post(this.apiUrl, this.form).subscribe({
-      next: (res: any) => {
-        Swal.fire({
-          title: '¡Medición registrada!',
-          html: `Tu IMC actual es <strong>${res.imc}</strong> — <span style="color:#14b8a6">${res.categoriaIMC}</span>`,
-          icon: 'success',
-          confirmButtonColor: '#14b8a6'
-        });
-        this.mostrandoFormulario = false;
-        this.cargando = false;
-        this.form = { peso: null, talla: null, cinturasCm: null, caderaCm: null, porcentajeGrasa: null, masaMuscular: null, notas: '' };
-        this.cargarHistorial();
-      },
-      error: () => {
-        Swal.fire('Error', 'No se pudo registrar la medición.', 'error');
-        this.cargando = false;
-      }
-    });
-  }
-
-  eliminar(id: number) {
-    Swal.fire({
-      title: '¿Eliminar medición?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#ef4444'
-    }).then(r => {
-      if (r.isConfirmed) {
-        this.http.delete(`${this.apiUrl}/${id}`).subscribe({
-          next: () => this.cargarHistorial(),
-          error: () => Swal.fire('Error', 'No se pudo eliminar.', 'error')
-        });
-      }
-    });
   }
 }
