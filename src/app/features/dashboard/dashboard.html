@@ -178,7 +178,7 @@
         </div>
         <div *ngIf="!objetivo" class="empty-state">
           <i class="ti ti-target"></i>
-          <p>Tu nutricionista aún no ha asignado tu objetivo.</p>
+          <p>Tu Health Coach aún no ha asignado tu objetivo.</p>
           <button class="quick-btn" style="margin-top:1rem" (click)="seccion='citas'">
             <i class="ti ti-calendar-plus"></i> Agenda una cita para comenzar
           </button>
@@ -196,12 +196,12 @@
           </span>
         </div>
         <p style="color:#94a3b8;font-size:0.85rem;margin-top:-0.25rem;margin-bottom:1.25rem">
-          Tu historial de mediciones registradas por tu nutricionista.
+          Tu historial de mediciones registradas por tu Health Coach.
         </p>
 
         <div *ngIf="medicionesPaciente.length === 0" class="empty-state">
           <i class="ti ti-ruler-measure"></i>
-          <p>Tu nutricionista aún no ha registrado mediciones en tu ficha.</p>
+          <p>Tu Health Coach aún no ha registrado mediciones en tu ficha.</p>
           <button class="quick-btn" style="margin-top:1rem" (click)="seccion='citas'">
             <i class="ti ti-calendar-plus"></i> Agenda tu primera consulta
           </button>
